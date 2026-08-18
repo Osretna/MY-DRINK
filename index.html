@@ -4,10 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>☕ نظام بوفيه المشروبات الاحترافي</title>
+    <title>☕ نظام بوفيه المشروبات - الإدارة المركزية</title>
+    <!-- ربط المانيفيست -->
+<link rel="manifest" href="manifest.json">
+<!-- لون الشريط العلوي للمتصفح في الموبايل -->
+<meta name="theme-color" content="#3E2723">
+<!-- جعل الموقع متوافق مع نظام أبل -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/924/924514.png">
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
 
         :root {
             --app-bg: linear-gradient(135deg, #3E2723 0%, #4E342E 100%);
@@ -356,105 +364,212 @@
                 opacity: 1;
             }
         }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+        :root {
+            --app-bg-default: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070');
+            --login-bg-default: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1887');
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-image: var(--app-bg-default);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #fff;
+            transition: background 0.5s ease-in-out;
+        }
+
+        /* صفحة الدخول */
+        .login-page {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background-image: var(--login-bg-default);
+            background-size: cover; background-position: center;
+        }
+        
+        .login-box {
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(15px);
+            padding: 30px; border-radius: 25px; 
+            width: 90%; max-width: 420px; text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            display: flex; flex-direction: column; align-items: center;
+            overflow: hidden;
+        }
+
+        /* الشعار - توافق كامل مع الرزولوشن */
+        .login-logo {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain; /* يضمن ظهور الصورة كاملة دون قص */
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
+
+        .login-box input { 
+            width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.15) !important; color: #fff !important; font-family: 'Cairo'; font-weight: 600;
+        }
+
+        /* القائمة الرئيسية */
+        .main-page { display: none; }
+        .header {
+            background: rgba(62, 39, 35, 0.85); color: #FFD700;
+            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+        }
+
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+
+        /* الجوداول والكروت - شفافية 85% */
+        .history-section, .admin-panel, table, .card {
+            background: rgba(255, 255, 255, 0.15) !important; 
+            backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 15px !important; margin-bottom: 20px;
+        }
+
+        th { background: rgba(62, 39, 35, 0.75); color: #FFD700; padding: 12px; }
+        td { padding: 12px; text-align: center; color: #fff; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+        .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        .card { padding: 15px; text-align: center; color: #FFD700; }
+
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; transition: 0.3s; }
+        .btn-save { background: #2E7D32; color: white; width: 100%; font-size: 1.1rem; margin: 10px 0; }
+        .btn-del { background: #c62828; color: white; }
+        /* تنسيق خاص للهواتف المحمولة */
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr 1fr; /* عرض كرتين في كل صف */
+        font-size: 12px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    /* جعل الجداول قابلة للتمرير يميناً ويساراً في الموبايل */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        padding: 8px 5px;
+        font-size: 11px;
+    }
+
+    .login-box {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    input {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+/* تحسين شكل الجدول بشكل عام ليكون مريح للعين */
+table {
+    width: 100%;
+    table-layout: auto;
+}
+
     </style>
 </head>
 
 <body>
 
-    <!-- صفحة الدخول -->
     <div class="login-page" id="loginPage">
         <div class="login-box">
-            <img id="loginBoxLogo" src="https://cdn-icons-png.flaticon.com/512/924/924514.png" class="login-logo">
-            <h2 style="color: #FFD700; margin-bottom: 20px;">دخول النظام السحابي</h2>
+            <img id="globalLogo" src="https://cdn-icons-png.flaticon.com/512/924/924514.png" class="login-logo">
+            <h2 style="color: #FFD700; margin-bottom: 15px;">بوفيه الذكي - دخول</h2>
             <input type="email" id="email" placeholder="البريد الإلكتروني">
             <input type="password" id="password" placeholder="كلمة المرور">
-            <button class="btn btn-save" onclick="handleLogin()">🔐 تسجيل الدخول</button>
-            <p id="loginErr" style="color:#ff5252; display:none; margin-top:10px; font-weight: bold;"></p>
+            <button class="btn btn-save" onclick="handleLogin()">🔐 دخول</button>
         </div>
     </div>
 
-    <!-- الصفحة الرئيسية -->
     <div class="main-page" id="mainPage">
         <div class="header">
-            <div style="font-size: 1.3rem; font-weight: 800;">☕ بوفيه الذكي</div>
+            <div id="appTitle">☕ النظام المركزي</div>
             <div>
-                <button class="btn" style="background:#1565C0; color:white;" onclick="exportToExcel()">📊 تصدير
-                    اكسل</button>
-                <button class="btn" style="background:#FF9800; color:white;" onclick="toggleAdmin()">⚙️ الإدارة</button>
+                <button class="btn" style="background:#1565C0; color:white;" onclick="exportToExcel()">📊 اكسل</button>
+                <button class="btn" id="adminBtn" style="background:#FF9800; color:white;" onclick="toggleAdmin()">⚙️ الإدارة</button>
                 <button class="btn btn-del" onclick="handleLogout()">🚪 خروج</button>
             </div>
         </div>
 
-        <div class="container fade-in">
-            <!-- لوحة الإدارة -->
+        <div class="container">
+            <!-- لوحة الإدارة المركزية (للأدمن فقط) -->
+
             <div id="adminPanel" class="admin-panel" style="padding: 20px; display: none;">
-                <h3 style="color: #FFD700; margin-bottom: 15px; border-bottom: 1px solid #FFD700;">⚙️ إعدادات الإدارة
-                </h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <h3 style="color:#FFD700; border-bottom:1px solid #FFD700; margin-bottom:15px;">🛠️ التحكم المركزي (Global)</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
                     <div>
-                        <h4>🎨 تخصيص المظهر</h4>
-                        <input type="text" id="bgAppUrl" placeholder="رابط خلفية التطبيق الرئيسية">
-                        <input type="text" id="bgLoginUrl" placeholder="رابط خلفية صفحة الدخول">
-                        <input type="text" id="logoUrlInput" placeholder="رابط الشعار">
-                        <button class="btn" style="background:#2E7D32; color:white; width:100%"
-                            onclick="updateAppTheme()">💾 حفظ المظهر</button>
+                        <h4>🖼️ مظهر التطبيق للكل</h4>
+                        <input type="text" id="setBgApp" placeholder="رابط خلفية التطبيق">
+                        <input type="text" id="setBgLogin" placeholder="رابط خلفية الدخول">
+                        <input type="text" id="setLogo" placeholder="رابط الشعار">
+                        <button class="btn btn-save" onclick="saveGlobalSettings()">💾 حفظ المظهر للجميع</button>
                     </div>
                     <div>
-                        <h4>☕ قائمة المشروبات</h4>
-                        <input type="text" id="newBevName" placeholder="اسم المشروب">
-                        <input type="number" step="0.25" id="newBevPrice" placeholder="السعر">
-                        <button class="btn" style="background:#1565C0; color:white; width:100%"
-                            onclick="addNewBeverage()">➕ إضافة مشروب</button>
+                        <h4>☕ قائمة المشروبات الموحدة</h4>
+                        <input type="text" id="bevName" placeholder="اسم المشروب">
+                        <input type="number" step="0.25" id="bevPrice" placeholder="السعر">
+                        <button class="btn btn-save" style="background:#1565C0" onclick="addGlobalBeverage()">➕ إضافة مشروب للكل</button>
                     </div>
-                    <div>
-                        <h4>👥 الموظفين</h4>
-                        <input type="email" id="newUserEmail" placeholder="بريد الموظف">
-                        <input type="password" id="newUserPass" placeholder="كلمة المرور">
-                        <button class="btn" style="background:#FF9800; color:white; width:100%"
-                            onclick="createNewUser()">+ إنشاء حساب</button>
-                    </div>
+                    <!-- مربع إضافة موظف جديد -->
+<div class="admin-card" style="border: 1px solid rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+    <h4>👥 إضافة موظف جديد</h4>
+    <p style="font-size: 11px; margin-bottom: 10px; color: #FFD700;">(سيتم تفعيله فوراً على السحابة)</p>
+    <input type="email" id="newUserEmail" placeholder="البريد الإلكتروني للموظف">
+    <input type="password" id="newUserPass" placeholder="كلمة المرور">
+    <button class="btn btn-save" style="background:#FF9800; color:white; width:100%" onclick="createNewUser()">➕ إنشاء حساب الموظف</button>
+</div>
                 </div>
             </div>
+            
 
-            <!-- كروت الإحصائيات -->
             <div class="summary-cards">
-                <div class="card">💰 الإجمالي: <br><span id="totalSales">0.00</span> ج.م</div>
-                <div class="card">🥤 الأكواب: <br><span id="totalCups">0</span></div>
-                <div class="card" style="color: #ff5252;">🎫 البون: <br><span id="currentBon">1</span></div>
-                <div class="card" style="color: #4caf50;">🎁 مجاني متبقي: <br><span id="freeRemain">2</span></div>
+                <div class="card">💰 مبيعاتي: <br><span id="totalSales">0.00</span></div>
+                <div class="card" style="color:#ff5252">🎫 البون: <br><span id="currentBon">1</span></div>
+                <div class="card" style="color:#4caf50">🎁 مجاني: <br><span id="freeRemain">2</span></div>
             </div>
 
-            <!-- جدول الإدخال -->
-            <table style="margin-top: 20px;">
+            <table>
                 <thead>
-                    <tr>
-                        <th>المشروب</th>
-                        <th>السعر</th>
-                        <th>الكمية</th>
-                        <th>الإجمالي</th>
-                        <th>الحالة</th>
-                    </tr>
+                    <tr><th>المشروب</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>الحالة</th></tr>
                 </thead>
                 <tbody id="bevTableBody"></tbody>
             </table>
 
-            <button class="btn btn-save" onclick="processSale()">💾 حفظ الفاتورة السحابية</button>
+            <button class="btn btn-save" onclick="processSale()">💾 حفظ الفاتورة سحابياً</button>
 
-            <!-- سجل العمليات -->
-            <div class="history-section" style="padding: 20px;">
-                <h3 style="color:#FFD700">📋 السجل التفصيلي (كل مشروب في سطر)</h3>
-                <table style="margin-top:15px;">
+            <div class="history-section" style="padding: 15px;">
+                <h3 style="color:#FFD700">📋 سجل مبيعاتي الخاص</h3>
+                <table style="margin-top:10px;">
                     <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>التاريخ</th>
-                            <th>الوقت</th>
-                            <th>المشروب</th>
-                            <th>الكمية</th>
-                            <th>المبلغ</th>
-                            <th>البون</th>
-                            <th>حذف</th>
-                        </tr>
+                        <tr><th>#</th><th>التاريخ</th><th>الوقت</th><th>المشروب</th><th>الكمية</th><th>المبلغ</th><th>البون</th><th>حذف</th></tr>
                     </thead>
                     <tbody id="historyBody"></tbody>
                 </table>
@@ -465,7 +580,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, updateDoc, arrayUnion, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, updateDoc, arrayUnion, deleteDoc, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCLUfSemgUEytbDeEzTb50AVZfBAH7r9OQ",
@@ -483,189 +598,232 @@
         let currentUser = null;
         let beverages = [];
         let historyData = [];
+        const MASTER_ADMIN = "ashraf@crm.com"; // البريد الرئيسي المتحكم في الكل
 
-        // --- نظام الدخول ---
-        window.handleLogin = async () => {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-            try {
-                await signInWithEmailAndPassword(auth, email, pass);
-            } catch (e) {
-                document.getElementById('loginErr').innerText = "خطأ: تأكد من البيانات";
-                document.getElementById('loginErr').style.display = "block";
-            }
-        };
+        // --- الدخول ---
+        // دالة تسجيل الدخول
+window.handleLogin = async () => {
+    const email = document.getElementById('email').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    const errDisplay = document.getElementById('loginErr');
 
-        window.handleLogout = () => signOut(auth);
+    if(!email || !pass) return alert("⚠️ يرجى كتابة البريد وكلمة المرور");
 
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('mainPage').style.display = 'block';
-                loadUserData();
-                listenToHistory();
-            } else {
-                document.getElementById('loginPage').style.display = 'flex';
-                document.getElementById('mainPage').style.display = 'none';
-            }
-        });
+    try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        // عند النجاح، سيقوم onAuthStateChanged بالباقي تلقائياً
+    } catch (error) {
+        console.error("Login Error:", error);
+        errDisplay.innerText = "❌ فشل الدخول: تأكد من الإيميل والباسورد";
+        errDisplay.style.display = "block";
+    }
+};
 
-        // --- تحميل البيانات والمظهر ---
-        async function loadUserData() {
-            const bevSnap = await getDoc(doc(db, "beverages", currentUser.uid));
-            if (bevSnap.exists()) {
-                beverages = bevSnap.data().list;
-            } else {
-                beverages = [{ name: "شاي", price: 1.25 }, { name: "قهوة", price: 7.00 }];
-                await setDoc(doc(db, "beverages", currentUser.uid), { list: beverages });
-            }
-            renderTable();
+// مراقب حالة المستخدم (الحل لعدم الطرد)
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        currentUser = user;
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('mainPage').style.display = 'block';
+        
+        // تحميل البيانات
+        loadGlobalData(); 
+        listenToUserHistory();
+    } else {
+        document.getElementById('loginPage').style.display = 'flex';
+        document.getElementById('mainPage').style.display = 'none';
+    }
+});
 
-            const setSnap = await getDoc(doc(db, "settings", currentUser.uid));
-            if (setSnap.exists()) {
-                const s = setSnap.data();
-                if (s.bg) document.body.style.backgroundImage = `url(${s.bg})`;
-                if (s.bgLogin) document.getElementById('loginPage').style.backgroundImage = `url(${s.bgLogin})`;
-                if (s.logo) {
-                    document.getElementById('loginBoxLogo').src = s.logo;
+        // --- تحميل البيانات العالمية (المشروبات والمظهر) ---
+        async function loadGlobalData() {
+            // 1. جلب المظهر (Global Settings)
+            onSnapshot(doc(db, "settings", "global_config"), (docSnap) => {
+                if (docSnap.exists()) {
+                    const s = docSnap.data();
+                    if(s.bg) document.body.style.backgroundImage = `url(${s.bg})`;
+                    if(s.bgLogin) document.getElementById('loginPage').style.backgroundImage = `url(${s.bgLogin})`;
+                    if(s.logo) document.getElementById('globalLogo').src = s.logo;
                 }
-            }
-        }
+            });
 
-        // --- الإدارة (محمية بكلمة مرور) ---
-        window.toggleAdmin = () => {
-            const p = document.getElementById('adminPanel');
-            if (p.style.display === 'block') {
-                p.style.display = 'none';
-            } else {
-                const pass = prompt("الرجاء إدخال كلمة مرور الإدارة:");
-                if (pass === "admin123456") {
-                    p.style.display = 'block';
+            // 2. جلب المشروبات (Global Beverages)
+            onSnapshot(doc(db, "beverages", "global_list"), (docSnap) => {
+                if (docSnap.exists()) {
+                    beverages = docSnap.data().list;
+                    renderTable();
                 } else {
-                    alert("⚠️ كلمة مرور خاطئة!");
-                }
-            }
-        };
-
-        // --- منطق المشروبات المجانية اليومية ---
-        function getRemainingFreeToday() {
-            const today = new Date().toLocaleDateString('ar-EG');
-            let usedToday = 0;
-            historyData.forEach(sale => {
-                if (sale.timestamp.toDate().toLocaleDateString('ar-EG') === today) {
-                    sale.items.forEach(item => { if (item.isFree) usedToday += item.qty; });
+                    // إذا لم توجد مشروبات عالمية ننشئ القائمة لأول مرة
+                    if(currentUser.email === MASTER_ADMIN) {
+                        setDoc(doc(db, "beverages", "global_list"), { list: [{name:"شاي", price:1.25}] });
+                    }
                 }
             });
-            return Math.max(0, 2 - usedToday);
         }
 
-        window.renderTable = () => {
-            const tbody = document.getElementById('bevTableBody');
-            tbody.innerHTML = '';
-            beverages.forEach((bev, i) => {
-                tbody.insertAdjacentHTML('beforeend', `
-                    <tr>
-                        <td>${bev.name}</td>
-                        <td>${bev.price.toFixed(2)}</td>
-                        <td><input type="number" class="qty-input" style="width:60px" id="qty_${i}" value="0" min="0" oninput="window.calculateUI()"></td>
-                        <td id="line_${i}">0.00</td>
-                        <td id="note_${i}">-</td>
-                    </tr>
-                `);
-            });
-        };
+        // 1. تعريف متغير الحالة في بداية السكريبت
+let isAuthorizedAdmin = false; 
 
-        window.calculateUI = () => {
-            let tempFree = getRemainingFreeToday();
-            beverages.forEach((bev, i) => {
-                const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
-                let paidQty = qty;
-                let freeApplied = 0;
-                if (bev.price == 1.25 && tempFree > 0 && qty > 0) {
-                    freeApplied = Math.min(qty, tempFree);
-                    paidQty = qty - freeApplied;
-                    tempFree -= freeApplied;
-                }
-                document.getElementById(`line_${i}`).innerText = (paidQty * bev.price).toFixed(2);
-                document.getElementById(`note_${i}`).innerText = freeApplied > 0 ? `🎁 ${freeApplied} مجاني` : '-';
-            });
-            document.getElementById('freeRemain').innerText = tempFree;
-        };
+// 2. تحديث دالة فتح لوحة الإدارة
+window.toggleAdmin = () => {
+    const p = document.getElementById('adminPanel');
+    
+    // إذا كانت اللوحة مفتوحة بالفعل، سنغلقها
+    if (p.style.display === 'block') {
+        p.style.display = 'none';
+        isAuthorizedAdmin = false; // إلغاء الصلاحية عند الإغلاق للأمان
+        return;
+    }
 
-        window.processSale = async () => {
-            let freeLeft = getRemainingFreeToday();
-            const itemsToSave = [];
-            let grandTotal = 0;
+    // طلب كلمة المرور لفتح اللوحة ومنح الصلاحية
+    const pass = prompt("الرجاء إدخال كلمة مرور الإدارة:");
+    if (pass === "admin123456") {
+        p.style.display = 'block';
+        isAuthorizedAdmin = true; // تفعيل الصلاحية
+        alert("✅ مرحباً بك.. تم تفعيل صلاحيات الإدارة الكاملة");
+    } else {
+        alert("❌ كلمة مرور خاطئة.. لا تملك صلاحية الوصول");
+        isAuthorizedAdmin = false;
+    }
+};
 
-            beverages.forEach((bev, i) => {
-                const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
-                if (qty > 0) {
-                    let freeInThisItem = (bev.price == 1.25 && freeLeft > 0) ? Math.min(qty, freeLeft) : 0;
-                    let paidQty = qty - freeInThisItem;
-                    freeLeft -= freeInThisItem;
-                    let itemTotal = paidQty * bev.price;
-                    grandTotal += itemTotal;
-                    itemsToSave.push({ name: bev.name, qty, price: bev.price, paidAmount: itemTotal, isFree: freeInThisItem > 0, freeQty: freeInThisItem });
-                }
-            });
+        // --- حفظ الإعدادات العالمية (للأدمن فقط) ---
+        // 3. تحديث دالة حفظ المظهر (إزالة شرط الإيميل)
+window.saveGlobalSettings = async () => {
+    if (!isAuthorizedAdmin) return alert("❌ يرجى فتح لوحة الإدارة بكلمة السر أولاً");
+    
+    const bg = document.getElementById('setBgApp').value;
+    const bgL = document.getElementById('setBgLogin').value;
+    const logo = document.getElementById('setLogo').value;
+    
+    try {
+        // setDoc مع merge: true تقوم بالإنشاء أو التحديث بأمان
+        await setDoc(doc(db, "settings", "global_config"), { 
+            bg: bg || "", 
+            bgLogin: bgL || "", 
+            logo: logo || "" 
+        }, { merge: true });
+        
+        alert("✅ تم حفظ وتطبيق المظهر على جميع المستخدمين!");
+    } catch (e) {
+        alert("❌ خطأ في حفظ الإعدادات: " + e.message);
+    }
+};
 
-            if (itemsToSave.length === 0) return alert("القائمة فارغة!");
-            await addDoc(collection(db, "users", currentUser.uid, "sales"), { items: itemsToSave, total: grandTotal, timestamp: new Date() });
-            alert("✅ تم الحفظ سحابياً");
-            renderTable();
-            calculateUI();
-        };
+        // 4. تحديث دالة إضافة المشروبات (إزالة شرط الإيميل)
+window.addGlobalBeverage = async () => {
+    if (!isAuthorizedAdmin) return alert("❌ يرجى فتح لوحة الإدارة بكلمة السر أولاً");
+    
+    const name = document.getElementById('bevName').value;
+    const price = parseFloat(document.getElementById('bevPrice').value);
+    
+    if(name && !isNaN(price)) {
+        try {
+            const docRef = doc(db, "beverages", "global_list");
+            const docSnap = await getDoc(docRef);
 
-        // --- عرض السجل (سطر لكل مشروب) ---
-        function listenToHistory() {
+            if (!docSnap.exists()) {
+                // إذا كانت القائمة غير موجودة نهائياً، ننشئها بأول مشروب
+                await setDoc(docRef, { list: [{ name, price }] });
+            } else {
+                // إذا كانت موجودة، نضيف إليها المشروب الجديد
+                await updateDoc(docRef, {
+                    list: arrayUnion({ name, price })
+                });
+            }
+            
+            alert("✅ تمت إضافة المشروب للقائمة الموحدة!");
+            document.getElementById('bevName').value = "";
+            document.getElementById('bevPrice').value = "";
+        } catch (e) {
+            console.error(e);
+            alert("❌ حدث خطأ أثناء الإضافة: " + e.message);
+        }
+    } else {
+        alert("⚠️ يرجى إدخال اسم المشروب وسعره بشكل صحيح");
+    }
+};
+
+        // --- المبيعات والتقارير (منفصلة لكل مستخدم) ---
+        function listenToUserHistory() {
             const q = query(collection(db, "users", currentUser.uid, "sales"), orderBy("timestamp", "asc"));
             onSnapshot(q, (snapshot) => {
                 historyData = [];
                 const tbody = document.getElementById('historyBody');
                 tbody.innerHTML = '';
-                let totalSold = 0;
-                let runningTotal = 0;
-                let counter = 1;
-                let rowsHtml = [];
+                let totalS = 0; let runTotal = 0; let counter = 1; let rows = [];
 
-                snapshot.forEach((docSnap) => {
+                snapshot.forEach(docSnap => {
                     const data = docSnap.data();
-                    const docId = docSnap.id;
-                    historyData.push({ id: docId, ...data });
-
+                    const id = docSnap.id;
+                    historyData.push({id, ...data});
                     data.items.forEach(item => {
-                        totalSold += item.paidAmount;
-                        runningTotal += item.paidAmount;
-                        const bonNum = Math.floor(runningTotal / 50) + 1;
+                        totalS += item.paidAmount; runTotal += item.paidAmount;
                         const d = data.timestamp.toDate();
-
-                        const row = `<tr>
-                            <td>${counter++}</td>
-                            <td>${d.toLocaleDateString('ar-EG')}</td>
-                            <td>${d.toLocaleTimeString('ar-EG')}</td>
-                            <td style="color:#FFD700">${item.name} ${item.isFree ? '🎁' : ''}</td>
-                            <td>${item.qty}</td>
+                        rows.push(`<tr><td>${counter++}</td><td>${d.toLocaleDateString('ar-EG')}</td><td>${d.toLocaleTimeString('ar-EG')}</td>
+                            <td style="color:#FFD700">${item.name}</td><td>${item.qty}</td>
                             <td style="color:#4caf50">${item.paidAmount.toFixed(2)}</td>
-                            <td style="color:#ff5252">${bonNum}</td>
-                            <td><button class="btn btn-del" style="padding:2px 8px" onclick="deleteSale('${docId}')">حذف</button></td>
-                        </tr>`;
-                        rowsHtml.push(row);
+                            <td style="color:#ff5252">${Math.floor(runTotal/50)+1}</td>
+                            <td><button class="btn btn-del" onclick="deleteSale('${id}')">حذف</button></td></tr>`);
                     });
                 });
-                tbody.innerHTML = rowsHtml.reverse().join('');
-                document.getElementById('totalSales').innerText = totalSold.toFixed(2);
-                document.getElementById('currentBon').innerText = Math.floor(totalSold / 50) + 1;
-                let totalCupsCount = 0;
-                historyData.forEach(s => s.items.forEach(i => totalCupsCount += i.qty));
-                document.getElementById('totalCups').innerText = totalCupsCount;
+                tbody.innerHTML = rows.reverse().join('');
+                document.getElementById('totalSales').innerText = totalS.toFixed(2);
+                document.getElementById('currentBon').innerText = Math.floor(totalS/50)+1;
                 document.getElementById('freeRemain').innerText = getRemainingFreeToday();
             });
         }
 
-        window.deleteSale = async (id) => { if (confirm("حذف هذه الفاتورة بالكامل؟")) await deleteDoc(doc(db, "users", currentUser.uid, "sales", id)); };
+        window.processSale = async () => {
+            let freeLeft = getRemainingFreeToday();
+            const items = []; let total = 0;
+            beverages.forEach((bev, i) => {
+                const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
+                if (qty > 0) {
+                    let freeInItem = (bev.price == 1.25 && freeLeft > 0) ? Math.min(qty, freeLeft) : 0;
+                    let paidQty = qty - freeInItem; freeLeft -= freeInItem;
+                    let lineTotal = paidQty * bev.price; total += lineTotal;
+                    items.push({ name: bev.name, qty, price: bev.price, paidAmount: lineTotal, isFree: freeInItem > 0, freeQty: freeInItem });
+                }
+            });
+            if(items.length === 0) return alert("⚠️ أدخل كمية");
+            await addDoc(collection(db, "users", currentUser.uid, "sales"), { items, total, timestamp: new Date() });
+            alert("✅ تم الحفظ");
+            renderTable();
+        };
 
-        // --- تصدير Excel (مطابق للسجل) ---
+        window.renderTable = () => {
+            const tbody = document.getElementById('bevTableBody');
+            tbody.innerHTML = beverages.map((bev, i) => `
+                <tr><td>${bev.name}</td><td>${bev.price.toFixed(2)}</td>
+                <td><input type="number" class="qty-input" style="width:60px" id="qty_${i}" value="0" min="0" oninput="window.calculateUI()"></td>
+                <td id="line_${i}">0.00</td><td id="note_${i}">-</td></tr>`).join('');
+        };
+
+        window.calculateUI = () => {
+            let freeL = getRemainingFreeToday();
+            beverages.forEach((bev, i) => {
+                const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
+                let freeIn = (bev.price == 1.25 && freeL > 0 && qty > 0) ? Math.min(qty, freeL) : 0;
+                freeL -= freeIn;
+                document.getElementById(`line_${i}`).innerText = ((qty - freeIn) * bev.price).toFixed(2);
+                document.getElementById(`note_${i}`).innerText = freeIn > 0 ? `🎁 ${freeIn} مجاني` : '-';
+            });
+        };
+
+        function getRemainingFreeToday() {
+            const today = new Date().toLocaleDateString('ar-EG');
+            let used = 0;
+            historyData.forEach(sale => {
+                if(sale.timestamp.toDate().toLocaleDateString('ar-EG') === today) {
+                    sale.items.forEach(item => { if(item.isFree) used += item.qty; });
+                }
+            });
+            return Math.max(0, 2 - used);
+        }
+
+        window.deleteSale = async (id) => { if(confirm("حذف؟")) await deleteDoc(doc(db, "users", currentUser.uid, "sales", id)); };
+
         window.exportToExcel = () => {
             if (historyData.length === 0) return alert("لا توجد بيانات");
             const data = [["نظام بوفيه المشروبات ☕"], ["التاريخ:", new Date().toLocaleDateString('ar-EG')], [], ["#", "التاريخ", "الوقت", "المشروب", "الكمية", "السعر", "المدفوع", "البون", "المجانية"]];
@@ -683,27 +841,42 @@
             XLSX.writeFile(wb, `تقرير_البوفيه.xlsx`);
         };
 
-        window.updateAppTheme = async () => {
-            const bg = document.getElementById('bgAppUrl').value;
-            const bgL = document.getElementById('bgLoginUrl').value;
-            const logo = document.getElementById('logoUrlInput').value;
-            await setDoc(doc(db, "settings", currentUser.uid), { bg, bgLogin: bgL, logo }, { merge: true });
-            alert("✅ تم تحديث المظهر بنجاح");
-            location.reload();
-        };
+        // دالة إنشاء مستخدم جديد سحابياً
+window.createNewUser = async () => {
+    // التحقق فقط من أن لوحة الإدارة مفتوحة بالباسورد الصحيح
+    if (!isAuthorizedAdmin) {
+        return alert("❌ يرجى فتح لوحة الإدارة بكلمة السر أولاً");
+    }
 
-        window.addNewBeverage = async () => {
-            const name = document.getElementById('newBevName').value;
-            const price = parseFloat(document.getElementById('newBevPrice').value);
-            if (name && price) { await updateDoc(doc(db, "beverages", currentUser.uid), { list: arrayUnion({ name, price }) }); alert("تمت إضافة المشروب"); renderTable(); }
-        };
+    const email = document.getElementById('newUserEmail').value;
+    const pass = document.getElementById('newUserPass').value;
 
-        window.createNewUser = async () => {
-            const e = document.getElementById('newUserEmail').value;
-            const p = document.getElementById('newUserPass').value;
-            try { await createUserWithEmailAndPassword(auth, e, p); alert("تم إنشاء الحساب"); } catch (err) { alert(err.message); }
-        };
+    if (!email || !pass) return alert("⚠️ يرجى إدخال البريد وكلمة المرور للموظف");
+
+    try {
+        // استخدام نسخة ثانية لعدم تسجيل خروجك كما شرحنا سابقاً
+        const secondaryApp = initializeApp(firebaseConfig, "SecondaryContext");
+        const secondaryAuth = getAuth(secondaryApp);
+        
+        await createUserWithEmailAndPassword(secondaryAuth, email, pass);
+        await signOut(secondaryAuth); // تسجيل خروج الحساب الجديد فوراً من الذاكرة المؤقتة
+        
+        alert("✅ تم إنشاء حساب الموظف بنجاح!");
+        document.getElementById('newUserEmail').value = "";
+        document.getElementById('newUserPass').value = "";
+    } catch (error) {
+        alert("❌ فشل الإنشاء: " + error.message);
+    }
+};
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(registration => {
+      console.log('SW registered: ', registration);
+    }).catch(registrationError => {
+      console.log('SW registration failed: ', registrationError);
+    });
+  });
+}
     </script>
 </body>
-
 </html>
