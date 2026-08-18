@@ -460,9 +460,41 @@
         }
 
         .login-box input { 
-            width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.15) !important; color: #fff !important; font-family: 'Cairo'; font-weight: 600;
-        }
+    width: 100%; 
+    padding: 12px 15px; 
+    margin: 10px 0; 
+    border-radius: 12px; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    
+    /* منع ظهور أي صورة خلفية مكررة */
+    background-image: none !important; 
+    background-repeat: no-repeat !important;
+    background-color: rgba(255, 255, 255, 0.15) !important; /* الشفافية 85% */
+    
+    color: #ffffff !important; 
+    font-family: 'Cairo'; 
+    font-weight: 600;
+    font-size: 15px;
+    outline: none;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    
+    /* إخفاء أيقونات المتصفح التلقائية التي قد تظهر يميناً أو يساراً */
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* تحسين شكل النص التوضيحي */
+.login-box input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* تأثير عند الوقوف على الخانة */
+.login-box input:focus {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    border-color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
 
         /* القائمة الرئيسية */
         .main-page { display: none; }
