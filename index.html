@@ -916,6 +916,32 @@ window.createNewUser = async () => {
         alert("❌ فشل الإنشاء: " + error.message);
     }
 };
+
+// دالة تسجيل الخروج الاحترافية
+window.handleLogout = async () => {
+    try {
+        // تنفيذ أمر الخروج من فايربيز
+        await signOut(auth);
+        
+        // مسح أي بيانات مؤقتة في المتصفح للأمان
+        currentUser = null;
+        isAuthorizedAdmin = false;
+        historyData = [];
+        
+        // إخفاء الصفحة الرئيسية وإظهار صفحة الدخول فوراً
+        document.getElementById('mainPage').style.display = 'none';
+        document.getElementById('loginPage').style.display = 'flex';
+        
+        // إعادة تعيين خلفية صفحة الدخول الأصلية
+        document.body.style.backgroundImage = 'var(--login-bg-default)';
+        
+        console.log("✅ تم تسجيل الخروج بنجاح");
+    } catch (error) {
+        console.error("❌ خطأ أثناء الخروج:", error);
+        alert("حدث خطأ أثناء محاولة تسجيل الخروج");
+    }
+};
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').then(registration => {
