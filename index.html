@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☕ نظام بوفيه المشروبات الاحترافي</title>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+        :root {
+            --app-bg: linear-gradient(135deg, #3E2723 0%, #4E342E 100%);
+            --login-bg: linear-gradient(135deg, #3E2723 0%, #5D4037 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--app-bg);
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #3E2723;
+        }
+
+        /* صفحة الدخول */
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--login-bg);
+            background-size: cover;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* القائمة الرئيسية */
+        .main-page {
+            display: none;
+        }
+
+        .header {
+            background: rgba(62, 39, 35, 0.95);
+            color: #FFD700;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* الكروت */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #FFF8E1;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        /* الجداول */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: #5D4037;
+            color: #FFD700;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .qty-input {
+            width: 55px;
+            padding: 5px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+        }
+
+        /* لوحة التحكم */
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+            margin-bottom: 20px;
+            border: 2px solid #FFD700;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-family: 'Cairo';
+        }
+
+        /* الأزرار */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Cairo';
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-save {
+            background: #2E7D32;
+            color: white;
+            width: 100%;
+            font-size: 1.2rem;
+        }
+
+        .btn-excel {
+            background: #1565C0;
+            color: white;
+        }
+
+        .btn-del {
+            background: #c62828;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        /* الكروت (الإجمالي، الأكواب، البون، المجاني) */
+        .card {
+            background: rgba(255, 248, 225, 0.15);
+            /* شفافية بنسبة 85% */
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            color: #FFD700;
+            /* تغيير لون النص للأصفر ليكون واضحاً على الخلفيات الغامقة */
+            backdrop-filter: blur(10px);
+            /* تأثير ضبابي لجعل النص مقروءاً */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* جدول إدخال المشروبات */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.15);
+            /* شفافية بنسبة 85% */
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* نصوص الجدول لتكون واضحة */
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            /* جعل الخط أبيض ليظهر بوضوح */
+            font-weight: 600;
+        }
+
+        th {
+            background: rgba(62, 39, 35, 0.8);
+            /* رأس الجدول غامق قليلاً للتمييز */
+            color: #FFD700;
+            padding: 15px;
+        }
+
+        /* مدخلات الكمية لتظل واضحة */
+        .qty-input {
+            width: 55px;
+            padding: 5px;
+            text-align: center;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            /* جعل مربع الرقم أبيض واضح */
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* سجل العمليات بالأسفل */
+        .history-section {
+            background: rgba(255, 255, 255, 0.1);
+            /* شفافية */
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* شفافية سجل العمليات والجداول بنسبة 85% */
+        .history-section,
+        .admin-panel,
+        table,
+        .card {
+            background: rgba(255, 255, 255, 0.15) !important;
+            /* 0.15 يعني شفاف بنسبة 85% */
+            backdrop-filter: blur(10px) !important;
+            /* تأثير التغبيش لجعل النص واضحاً */
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 15px !important;
+        }
+
+        /* لون الخط داخل السجل ليكون واضحاً */
+        #historyBody td {
+            color: #ffffff !important;
+            /* لون أبيض */
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #historyBody tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+            /* تأثير عند مرور الماوس */
+        }
+
+        /* رؤوس الجداول */
+        thead th {
+            background: rgba(62, 39, 35, 0.7) !important;
+            color: #FFD700 !important;
+            /* لون ذهبي */
+        }
+
+        /* العناوين داخل السجل */
+        .history-section h3 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* لوحة الإدارة */
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+            margin-bottom: 20px;
+            border: 1px solid #FFD700;
+            backdrop-filter: blur(10px);
+            color: #fff;
+        }
+
+        .history-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        /* تنسيق صندوق الدخول المحدث */
+        .login-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            /* تقليل البادينج قليلاً ليعطي مساحة للصورة */
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* لضمان توسيط كل المحتويات */
+            overflow: hidden;
+            /* لمنع أي محتوى من الخروج عن الإطار */
+        }
+
+
+        /* تنسيق الشعار ليتوافق مع الإطار */
+        .login-logo {
+            width: 100%;
+            /* تأخذ عرض الصندوق بالكامل مع مراعاة البادينج */
+            max-height: 200px;
+            /* أقصى ارتفاع مسموح به للصورة */
+            object-fit: contain;
+            /* أهم خاصية: تجعل الصورة تظهر كاملة دون قص وتتناسق مع المساحة */
+            border-radius: 15px;
+            /* حواف ناعمة للصورة لتتماشى مع الصندوق */
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            /* خلفية خفيفة جداً خلف الصورة */
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- صفحة الدخول -->
+    <div class="login-page" id="loginPage">
+        <div class="login-box">
+            <img id="loginBoxLogo" src="https://cdn-icons-png.flaticon.com/512/924/924514.png" class="login-logo">
+            <h2 style="color: #FFD700; margin-bottom: 20px;">دخول النظام السحابي</h2>
+            <input type="email" id="email" placeholder="البريد الإلكتروني">
+            <input type="password" id="password" placeholder="كلمة المرور">
+            <button class="btn btn-save" onclick="handleLogin()">🔐 تسجيل الدخول</button>
+            <p id="loginErr" style="color:#ff5252; display:none; margin-top:10px; font-weight: bold;"></p>
+        </div>
+    </div>
+
+    <!-- الصفحة الرئيسية -->
+    <div class="main-page" id="mainPage">
+        <div class="header">
+            <div style="font-size: 1.3rem; font-weight: 800;">☕ بوفيه الذكي</div>
+            <div>
+                <button class="btn" style="background:#1565C0; color:white;" onclick="exportToExcel()">📊 تصدير
+                    اكسل</button>
+                <button class="btn" style="background:#FF9800; color:white;" onclick="toggleAdmin()">⚙️ الإدارة</button>
+                <button class="btn btn-del" onclick="handleLogout()">🚪 خروج</button>
+            </div>
+        </div>
+
+        <div class="container fade-in">
+            <!-- لوحة الإدارة -->
+            <div id="adminPanel" class="admin-panel" style="padding: 20px; display: none;">
+                <h3 style="color: #FFD700; margin-bottom: 15px; border-bottom: 1px solid #FFD700;">⚙️ إعدادات الإدارة
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4>🎨 تخصيص المظهر</h4>
+                        <input type="text" id="bgAppUrl" placeholder="رابط خلفية التطبيق الرئيسية">
+                        <input type="text" id="bgLoginUrl" placeholder="رابط خلفية صفحة الدخول">
+                        <input type="text" id="logoUrlInput" placeholder="رابط الشعار">
+                        <button class="btn" style="background:#2E7D32; color:white; width:100%"
+                            onclick="updateAppTheme()">💾 حفظ المظهر</button>
+                    </div>
+                    <div>
+                        <h4>☕ قائمة المشروبات</h4>
+                        <input type="text" id="newBevName" placeholder="اسم المشروب">
+                        <input type="number" step="0.25" id="newBevPrice" placeholder="السعر">
+                        <button class="btn" style="background:#1565C0; color:white; width:100%"
+                            onclick="addNewBeverage()">➕ إضافة مشروب</button>
+                    </div>
+                    <div>
+                        <h4>👥 الموظفين</h4>
+                        <input type="email" id="newUserEmail" placeholder="بريد الموظف">
+                        <input type="password" id="newUserPass" placeholder="كلمة المرور">
+                        <button class="btn" style="background:#FF9800; color:white; width:100%"
+                            onclick="createNewUser()">+ إنشاء حساب</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- كروت الإحصائيات -->
+            <div class="summary-cards">
+                <div class="card">💰 الإجمالي: <br><span id="totalSales">0.00</span> ج.م</div>
+                <div class="card">🥤 الأكواب: <br><span id="totalCups">0</span></div>
+                <div class="card" style="color: #ff5252;">🎫 البون: <br><span id="currentBon">1</span></div>
+                <div class="card" style="color: #4caf50;">🎁 مجاني متبقي: <br><span id="freeRemain">2</span></div>
+            </div>
+
+            <!-- جدول الإدخال -->
+            <table style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>المشروب</th>
+                        <th>السعر</th>
+                        <th>الكمية</th>
+                        <th>الإجمالي</th>
+                        <th>الحالة</th>
+                    </tr>
+                </thead>
+                <tbody id="bevTableBody"></tbody>
+            </table>
+
+            <button class="btn btn-save" onclick="processSale()">💾 حفظ الفاتورة السحابية</button>
+
+            <!-- سجل العمليات -->
+            <div class="history-section" style="padding: 20px;">
+                <h3 style="color:#FFD700">📋 السجل التفصيلي (كل مشروب في سطر)</h3>
+                <table style="margin-top:15px;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>التاريخ</th>
+                            <th>الوقت</th>
+                            <th>المشروب</th>
+                            <th>الكمية</th>
+                            <th>المبلغ</th>
+                            <th>البون</th>
+                            <th>حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, updateDoc, arrayUnion, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCLUfSemgUEytbDeEzTb50AVZfBAH7r9OQ",
+            authDomain: "my-medil.firebaseapp.com",
+            projectId: "my-medil",
+            storageBucket: "my-medil.firebasestorage.app",
+            messagingSenderId: "424570340142",
+            appId: "1:424570340142:web:24f23331eb9fd3dfd470bf"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let beverages = [];
+        let historyData = [];
+
+        // --- نظام الدخول ---
+        window.handleLogin = async () => {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (e) {
+                document.getElementById('loginErr').innerText = "خطأ: تأكد من البيانات";
+                document.getElementById('loginErr').style.display = "block";
+            }
+        };
+
+        window.handleLogout = () => signOut(auth);
+
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainPage').style.display = 'block';
+                loadUserData();
+                listenToHistory();
+            } else {
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('mainPage').style.display = 'none';
+            }
+        });
+
+        // --- تحميل البيانات والمظهر ---
+        async function loadUserData() {
+            const bevSnap = await getDoc(doc(db, "beverages", currentUser.uid));
+            if (bevSnap.exists()) {
+                beverages = bevSnap.data().list;
+            } else {
+                beverages = [{ name: "شاي", price: 1.25 }, { name: "قهوة", price: 7.00 }];
+                await setDoc(doc(db, "beverages", currentUser.uid), { list: beverages });
+            }
+            renderTable();
+
+            const setSnap = await getDoc(doc(db, "settings", currentUser.uid));
+            if (setSnap.exists()) {
+                const s = setSnap.data();
+                if (s.bg) document.body.style.backgroundImage = `url(${s.bg})`;
+                if (s.bgLogin) document.getElementById('loginPage').style.backgroundImage = `url(${s.bgLogin})`;
+                if (s.logo) {
+                    document.getElementById('loginBoxLogo').src = s.logo;
+                }
+            }
+        }
+
+        // --- الإدارة (محمية بكلمة مرور) ---
+        window.toggleAdmin = () => {
+            const p = document.getElementById('adminPanel');
+            if (p.style.display === 'block') {
+                p.style.display = 'none';
+            } else {
+                const pass = prompt("الرجاء إدخال كلمة مرور الإدارة:");
+                if (pass === "admin123456") {
+                    p.style.display = 'block';
+                } else {
+                    alert("⚠️ كلمة مرور خاطئة!");
+                }
+            }
+        };
+
+        // --- منطق المشروبات المجانية اليومية ---
+        function getRemainingFreeToday() {
+            const today = new Date().toLocaleDateString('ar-EG');
+            let usedToday = 0;
+            historyData.forEach(sale => {
+                if (sale.timestamp.toDate().toLocaleDateString('ar-EG') === today) {
+                    sale.items.forEach(item => { if (item.isFree) usedToday += item.qty; });
+                }
+            });
+            return Math.max(0, 2 - usedToday);
+        }
+
+        window.renderTable = () => {
+            const tbody = document.getElementById('bevTableBody');
+            tbody.innerHTML = '';
+            beverages.forEach((bev, i) => {
+                tbody.insertAdjacentHTML('beforeend', `
+                    <tr>
+                        <td>${bev.name}</td>
+                        <td>${bev.price.toFixed(2)}</td>
+                        <td><input type="number" class="qty-input" style="width:60px" id="qty_${i}" value="0" min="0" oninput="window.calculateUI()"></td>
+                        <td id="line_${i}">0.00</td>
+                        <td id="note_${i}">-</td>
+                    </tr>
+                `);
+            });
+        };
+
+        window.calculateUI = () => {
+            let tempFree = getRemainingFreeToday();
+            beverages.forEach((bev, i) => {
+                const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
+                let paidQty = qty;
+                let freeApplied = 0;
+                if (bev.price == 1.25 && tempFree > 0 && qty > 0) {
+                    freeApplied = Math.min(qty, tempFree);
+                    paidQty = qty - freeApplied;
+                    tempFree -= freeApplied;
+                }
+                document.getElementById(`line_${i}`).innerText = (paidQty * bev.price).toFixed(2);
+                document.getElementById(`note_${i}`).innerText = freeApplied > 0 ? `🎁 ${freeApplied} مجاني` : '-';
+            });
+            document.getElementById('freeRemain').innerText = tempFree;
+        };
+
+        window.processSale = async () => {
+            let freeLeft = getRemainingFreeToday();
+            const itemsToSave = [];
+            let grandTotal = 0;
+
+            beverages.forEach((bev, i) => {
+                const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
+                if (qty > 0) {
+                    let freeInThisItem = (bev.price == 1.25 && freeLeft > 0) ? Math.min(qty, freeLeft) : 0;
+                    let paidQty = qty - freeInThisItem;
+                    freeLeft -= freeInThisItem;
+                    let itemTotal = paidQty * bev.price;
+                    grandTotal += itemTotal;
+                    itemsToSave.push({ name: bev.name, qty, price: bev.price, paidAmount: itemTotal, isFree: freeInThisItem > 0, freeQty: freeInThisItem });
+                }
+            });
+
+            if (itemsToSave.length === 0) return alert("القائمة فارغة!");
+            await addDoc(collection(db, "users", currentUser.uid, "sales"), { items: itemsToSave, total: grandTotal, timestamp: new Date() });
+            alert("✅ تم الحفظ سحابياً");
+            renderTable();
+            calculateUI();
+        };
+
+        // --- عرض السجل (سطر لكل مشروب) ---
+        function listenToHistory() {
+            const q = query(collection(db, "users", currentUser.uid, "sales"), orderBy("timestamp", "asc"));
+            onSnapshot(q, (snapshot) => {
+                historyData = [];
+                const tbody = document.getElementById('historyBody');
+                tbody.innerHTML = '';
+                let totalSold = 0;
+                let runningTotal = 0;
+                let counter = 1;
+                let rowsHtml = [];
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const docId = docSnap.id;
+                    historyData.push({ id: docId, ...data });
+
+                    data.items.forEach(item => {
+                        totalSold += item.paidAmount;
+                        runningTotal += item.paidAmount;
+                        const bonNum = Math.floor(runningTotal / 50) + 1;
+                        const d = data.timestamp.toDate();
+
+                        const row = `<tr>
+                            <td>${counter++}</td>
+                            <td>${d.toLocaleDateString('ar-EG')}</td>
+                            <td>${d.toLocaleTimeString('ar-EG')}</td>
+                            <td style="color:#FFD700">${item.name} ${item.isFree ? '🎁' : ''}</td>
+                            <td>${item.qty}</td>
+                            <td style="color:#4caf50">${item.paidAmount.toFixed(2)}</td>
+                            <td style="color:#ff5252">${bonNum}</td>
+                            <td><button class="btn btn-del" style="padding:2px 8px" onclick="deleteSale('${docId}')">حذف</button></td>
+                        </tr>`;
+                        rowsHtml.push(row);
+                    });
+                });
+                tbody.innerHTML = rowsHtml.reverse().join('');
+                document.getElementById('totalSales').innerText = totalSold.toFixed(2);
+                document.getElementById('currentBon').innerText = Math.floor(totalSold / 50) + 1;
+                let totalCupsCount = 0;
+                historyData.forEach(s => s.items.forEach(i => totalCupsCount += i.qty));
+                document.getElementById('totalCups').innerText = totalCupsCount;
+                document.getElementById('freeRemain').innerText = getRemainingFreeToday();
+            });
+        }
+
+        window.deleteSale = async (id) => { if (confirm("حذف هذه الفاتورة بالكامل؟")) await deleteDoc(doc(db, "users", currentUser.uid, "sales", id)); };
+
+        // --- تصدير Excel (مطابق للسجل) ---
+        window.exportToExcel = () => {
+            if (historyData.length === 0) return alert("لا توجد بيانات");
+            const data = [["نظام بوفيه المشروبات ☕"], ["التاريخ:", new Date().toLocaleDateString('ar-EG')], [], ["#", "التاريخ", "الوقت", "المشروب", "الكمية", "السعر", "المدفوع", "البون", "المجانية"]];
+            let runTotal = 0; let count = 1;
+            [...historyData].sort((a, b) => a.timestamp - b.timestamp).forEach(sale => {
+                sale.items.forEach(item => {
+                    runTotal += item.paidAmount;
+                    const d = sale.timestamp.toDate();
+                    data.push([count++, d.toLocaleDateString('ar-EG'), d.toLocaleTimeString('ar-EG'), item.name, item.qty, item.price.toFixed(2), item.paidAmount.toFixed(2), Math.floor(runTotal / 50) + 1, item.isFree ? "نعم" : "لا"]);
+                });
+            });
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "المبيعات");
+            XLSX.writeFile(wb, `تقرير_البوفيه.xlsx`);
+        };
+
+        window.updateAppTheme = async () => {
+            const bg = document.getElementById('bgAppUrl').value;
+            const bgL = document.getElementById('bgLoginUrl').value;
+            const logo = document.getElementById('logoUrlInput').value;
+            await setDoc(doc(db, "settings", currentUser.uid), { bg, bgLogin: bgL, logo }, { merge: true });
+            alert("✅ تم تحديث المظهر بنجاح");
+            location.reload();
+        };
+
+        window.addNewBeverage = async () => {
+            const name = document.getElementById('newBevName').value;
+            const price = parseFloat(document.getElementById('newBevPrice').value);
+            if (name && price) { await updateDoc(doc(db, "beverages", currentUser.uid), { list: arrayUnion({ name, price }) }); alert("تمت إضافة المشروب"); renderTable(); }
+        };
+
+        window.createNewUser = async () => {
+            const e = document.getElementById('newUserEmail').value;
+            const p = document.getElementById('newUserPass').value;
+            try { await createUserWithEmailAndPassword(auth, e, p); alert("تم إنشاء الحساب"); } catch (err) { alert(err.message); }
+        };
+    </script>
+</body>
+
+</html>
