@@ -102,7 +102,32 @@
         border: 1px solid rgba(255,255,255,0.2);
         overflow: hidden;
     }
+    
+    /* تصغير حجم خانة الكمية */
+.qty-input {
+    width: 60px !important; /* حجم صغير ومناسب */
+    height: 35px !important;
+    padding: 2px !important;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: white !important;
+    color: #333 !important;
+    font-weight: bold;
+}
 
+/* تنسيق خانة الملاحظات داخل الجدول */
+.note-input {
+    width: 120px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 12px;
+    font-family: 'Cairo';
+}
+.note-input::placeholder { color: rgba(255,255,255,0.5); }
     .btn {
     display: inline-flex;
     align-items: center;
@@ -150,6 +175,22 @@
         overflow: hidden;
     }
 
+    /* ضبط عرض خانة الملاحظات لتناسب الترتيب الجديد */
+    .note-input {
+        width: 100% !important;
+        max-width: 150px;
+        background: rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        color: white !important;
+        padding: 5px !important;
+        font-size: 12px !important;
+        border-radius: 5px;
+    }
+
+    /* ضمان عدم تداخل النصوص في الجداول الشفافة */
+    table td {
+        white-space: nowrap;
+    }
     /* الكروت */
     .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
     .card { padding: 15px; text-align: center; color: var(--gold); font-weight: 800; }
@@ -231,6 +272,7 @@
         <div class="container">
             <div id="adminPanel" class="admin-panel" style="padding: 20px; display: none;">
                 <h3 style="color:#FFD700; border-bottom:1px solid #FFD700; margin-bottom:15px;">🛠️ الإدارة</h3>
+                <button class="btn btn-del" style="padding: 5px 15px; font-size: 12px;" onclick="closeAdminPanel()">✖ إغلاق الإدارة</button>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
                     <div>
                         <h4>🖼️ المظهر واللوجو</h4>
@@ -312,7 +354,16 @@
                     <div class="card" style="color:#4caf50">🎁 مجاني: <br><span id="freeRemain">2</span></div>
                 </div>
                 <table style="margin-top:20px;">
-                    <thead><tr><th>المشروب</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>ملاحظة</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>المشروب</th>
+                            <th>السعر</th>
+                            <th>الكمية</th>
+                            <th>الإجمالي</th> <!-- تم التبديل -->
+                            <th>الملاحظات</th> <!-- تم التبديل -->
+                            <th>البونات</th>    <!-- الاسم الجديد للعمود الأخير -->
+                        </tr>
+                    </thead>
                     <tbody id="bevTableBody"></tbody>
                 </table>
                 <button class="btn btn-save" onclick="processSale()">💾 إرسال الطلب للبوفيه</button>
@@ -366,6 +417,9 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
+                // تأكيد إغلاق الإدارة عند أي دخول جديد أو ريفريش
+                isAuthorizedAdmin = false; 
+                document.getElementById('adminPanel').style.display = 'none';
                 const meta = await getDoc(doc(db, "users_metadata", user.uid));
                 if (meta.exists()) { userRole = meta.data().role; userDepartment = meta.data().department; }
                 
@@ -386,6 +440,42 @@
                 loadGlobalData(); loadDepartments(); loadAllUsersForManagement();
             } else { document.getElementById('loginPage').style.display = 'flex'; document.getElementById('mainPage').style.display = 'none'; }
         });
+
+        window.handleLogout = async () => {
+    if (confirm("هل أنت متأكد من تسجيل الخروج؟")) {
+        try {
+            await signOut(auth);
+            
+            // --- إجراءات الأمان الإضافية ---
+            isAuthorizedAdmin = false; // تصفير صلاحية الأدمن
+            const adminP = document.getElementById('adminPanel');
+            if(adminP) adminP.style.display = 'none'; // إخفاء لوحة الإدارة فوراً
+            
+            // تصفير البيانات المؤقتة
+            currentUser = null;
+            historyData = [];
+            
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('mainPage').style.display = 'none';
+            
+            console.log("✅ تم تسجيل الخروج وتأمين لوحة الإدارة");
+        } catch (error) {
+            alert("خطأ أثناء الخروج: " + error.message);
+        }
+    }
+};
+
+window.closeAdminPanel = () => {
+    isAuthorizedAdmin = false; // إلغاء الصلاحية البرمجية
+    const p = document.getElementById('adminPanel');
+    if (p) {
+        p.classList.add('fade-out'); // أنيميشن اختفاء اختياري
+        setTimeout(() => {
+            p.style.display = 'none';
+        }, 300);
+    }
+    alert("🔒 تم قفل صلاحيات الإدارة. ستحتاج للباسورد للدخول مرة أخرى.");
+};
 
         async function loadGlobalData() {
             onSnapshot(doc(db, "settings", "global_config"), (s) => {
@@ -458,11 +548,20 @@
             const finalItems = []; let total = 0;
             beverages.forEach((bev, i) => {
                 const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
+                const note = document.getElementById(`note_${i}`).value; // سحب الملاحظة
                 if (qty > 0) {
                     let freeIn = (bev.price == 1.25 && freeLeft > 0) ? Math.min(qty, freeLeft) : 0;
                     freeLeft -= freeIn;
                     let lineT = (qty - freeIn) * bev.price; total += lineT;
-                    finalItems.push({ name: bev.name, qty, price: bev.price, paidAmount: lineT, isFree: freeIn > 0, freeQty: freeIn });
+                    finalItems.push({ 
+                        name: bev.name, 
+                        qty, 
+                        price: bev.price, 
+                        paidAmount: lineT, 
+                        isFree: freeIn > 0, 
+                        freeQty: freeIn,
+                        note: note // حفظ الملاحظة مع المشروب
+                    });
                 }
             });
             if (finalItems.length === 0) return alert("⚠️ أدخل كمية");
@@ -535,22 +634,51 @@
         }
 
         window.renderTable = () => {
-            const tbody = document.getElementById('bevTableBody');
-            tbody.innerHTML = beverages.map((bev, i) => `<tr><td>${bev.name}</td><td>${bev.price.toFixed(2)}</td>
-                <td><input type="number" class="qty-input" id="qty_${i}" value="0" min="0" oninput="window.calculateUI()"></td>
-                <td id="line_${i}">0.00</td><td id="note_${i}">-</td></tr>`).join('');
-        };
+        const tbody = document.getElementById('bevTableBody');
+        if(!tbody) return;
+        
+        tbody.innerHTML = beverages.map((bev, i) => `
+            <tr>
+                <td style="font-weight:bold;">${bev.name}</td>
+                <td>${bev.price.toFixed(2)}</td>
+                <td>
+                    <input type="number" class="qty-input" id="qty_${i}" value="0" min="0" oninput="window.calculateUI()">
+                </td>
+                <td id="line_${i}" style="font-weight:bold; color:#4caf50;">0.00</td> <!-- الإجمالي أولاً -->
+                <td>
+                    <input type="text" class="note-input" id="note_${i}" placeholder="سكر/ملاحظات..">
+                </td> <!-- الملاحظات ثانياً -->
+                <td id="status_note_${i}" style="font-size:11px; color:#FFD700;">-</td> <!-- البونات أخيراً -->
+            </tr>`).join('');
+    };
 
-        window.calculateUI = () => {
+                window.calculateUI = () => {
             let freeL = getRemainingFreeToday();
             beverages.forEach((bev, i) => {
-                const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
+                const qtyInput = document.getElementById(`qty_${i}`);
+                const qty = parseInt(qtyInput.value) || 0;
+                
+                // حساب المشروبات المجانية (بسعر 1.25 فقط)
                 let freeIn = (bev.price == 1.25 && freeL > 0 && qty > 0) ? Math.min(qty, freeL) : 0;
                 freeL -= freeIn;
-                document.getElementById(`line_${i}`).innerText = ((qty - freeIn) * bev.price).toFixed(2);
-                document.getElementById(`note_${i}`).innerText = freeIn > 0 ? `🎁 ${freeIn} مجاني` : '-';
+
+                const paidQty = qty - freeIn;
+                const lineTotal = paidQty * bev.price;
+
+                // تحديث خانة الإجمالي (العمود الرابع)
+                document.getElementById(`line_${i}`).innerText = lineTotal.toFixed(2);
+                
+                // تحديث خانة البونات (العمود الأخير) لإظهار الخصم المجاني
+                const statusCell = document.getElementById(`status_note_${i}`);
+                if (freeIn > 0) {
+                    statusCell.innerHTML = `<span style="background:rgba(255,215,0,0.2); padding:2px 5px; border-radius:4px;">🎁 ${freeIn} مجاني</span>`;
+                } else {
+                    statusCell.innerText = "-";
+                }
             });
-            document.getElementById('freeRemain').innerText = freeL;
+            // تحديث الكارت العلوي للمجاني المتبقي
+            const freeRemainDisplay = document.getElementById('freeRemain');
+            if(freeRemainDisplay) freeRemainDisplay.innerText = freeL;
         };
 
         window.deleteSale = async (id) => { if (confirm("حذف الطلب؟")) await deleteDoc(doc(db, "all_orders", id)); };
@@ -761,6 +889,16 @@ function generateExcelLayout(ordersArray) {
             });
         });
         }
+
+        // تفعيل الدخول بمفتاح Enter
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                // إذا كانت صفحة الدخول هي الظاهرة، نفذ دالة الدخول
+                if (document.getElementById('loginPage').style.display !== 'none') {
+                    window.handleLogin();
+                }
+            }
+        });
 
         window.updateUserMetaData = async (id) => { await updateDoc(doc(db, "users_metadata", id), { role: document.getElementById(`r_${id}`).value }); alert("✅ تم التحديث"); };
     </script>
