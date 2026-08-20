@@ -19,6 +19,9 @@
     <meta name="keywords" content="نظام بوفيه، إدارة بوفيه، حساب مبيعات مشروبات، نظام بونات، إدارة بوفيه سحابي، تطبيق بوفيه أندرويد">
     <meta name="author" content="Buffet Smart System">
     <meta name="robots" content="index, follow">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 
     <!-- تحسين العرض على جميع الشاشات -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -568,21 +571,50 @@
 
         // --- الطلبات والتجهيز ---
         window.processSale = async () => {
-            let freeL = getRemainingFreeToday(); const items = []; let total = 0;
-            beverages.forEach((bev, i) => {
-                const qty = Number(document.getElementById(`qty_${i}`).value) || 0;
-                const note = document.getElementById(`note_${i}`).value;
-                if (qty > 0) {
-                    let freeIn = (bev.price == 1.25 && freeL > 0) ? Math.min(qty, freeL) : 0;
-                    freeL -= freeIn;
-                    let paidAmount = (qty - freeIn) * bev.price; total += paidAmount;
-                    items.push({ name: bev.name, qty, price: bev.price, paidAmount, isFree: freeIn > 0, freeQty: freeIn, note });
-                }
+    let freeLeft = getRemainingFreeToday();
+    const itemsToSave = []; 
+    
+    beverages.forEach((bev, i) => {
+        const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
+        const note = document.getElementById(`note_${i}`).value;
+        if (qty > 0) {
+            let freeIn = (bev.price == 1.25 && freeLeft > 0) ? Math.min(qty, freeLeft) : 0;
+            freeLeft -= freeIn;
+            let lineT = (qty - freeIn) * bev.price;
+
+            // أضفنا كل مشروب في مصفوفة مستقلة ليتم حفظه كمستند منفصل
+            itemsToSave.push({
+                name: bev.name, 
+                qty, 
+                price: bev.price, 
+                paidAmount: lineT, 
+                isFree: freeIn > 0, 
+                freeQty: freeIn,
+                note: note
             });
-            if (!items.length) return alert("أدخل مشروبات");
-            await addDoc(collection(db, "all_orders"), { items, total, timestamp: new Date(), userId: currentUser.uid, userName: currentUser.email.split('@')[0], userDept: userDepartment, status: "pending" });
-            alert("✅ تم الإرسال"); window.renderTable();
-        };
+        }
+    });
+
+    if (itemsToSave.length === 0) return alert("⚠️ أدخل كمية");
+
+    try {
+        // حفظ كل مشروب في مستند منفصل تماماً
+        for (const item of itemsToSave) {
+            await addDoc(collection(db, "all_orders"), {
+                items: [item], // مصفوفة فيها عنصر واحد فقط لضمان استقلال السطر
+                total: item.paidAmount,
+                timestamp: new Date(),
+                userId: currentUser.uid,
+                userName: currentUser.email.split('@')[0],
+                userDept: userDepartment,
+                status: "pending"
+            });
+        }
+        
+        alert("✅ تم إرسال الطلبات للبوفيه بشكل مستقل");
+        renderTable(); 
+    } catch (e) { alert("خطأ: " + e.message); }
+};
 
         window.finishOrder = async (docId) => {
             const orderRef = doc(db, "all_orders", docId);
@@ -855,7 +887,26 @@ window.editBuffetStock = async (uid, name, old) => { const n = prompt("تعدي�
             const result = 2 - used;
             return isNaN(result) ? 2 : Math.max(0, result);
         }
-        window.deleteSale = async (id) => { if (confirm("حذف؟")) await deleteDoc(doc(db, "all_orders", id)); };
+       window.deleteSale = async (id) => {
+    try {
+        const orderRef = doc(db, "all_orders", id);
+        const orderSnap = await getDoc(orderRef);
+        
+        if (orderSnap.exists()) {
+            const orderData = orderSnap.data();
+            
+            // شرط منع الحذف: إذا كان الطلب مكتمل (completed)
+            if (orderData.status === "completed") {
+                return alert("🚫 عفواً، لا يمكنك حذف طلب تم تجهيزه بالفعل!");
+            }
+
+            if (confirm("⚠️ هل تريد حذف هذا الطلب؟")) {
+                await deleteDoc(orderRef);
+                alert("✅ تم الحذف");
+            }
+        }
+    } catch (e) { alert("خطأ في الحذف: " + e.message); }
+};
         window.saveGlobalSettings = async () => { if(!isAuthorizedAdmin) return; await setDoc(doc(db, "settings", "global_config"), { bg: document.getElementById('setBgApp').value, logo: document.getElementById('setLogo').value }, { merge: true }); alert("✅ تم"); };
         window.addGlobalBeverage = async () => { if(!isAuthorizedAdmin) return; await updateDoc(doc(db, "beverages", "global_list"), { list: arrayUnion({ name: document.getElementById('bevName').value, price: Number(document.getElementById('bevPrice').value) }) }); alert("✅ تم"); };
         async function loadGlobalData() {
