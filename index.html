@@ -1682,6 +1682,20 @@ window.initEditBeverage = async (index) => {
         alert("✅ تم التعديل بنجاح");
     } catch (e) { alert("خطأ: " + e.message); }
 };
+// تفعيل الدخول بمفتاح Enter من لوحة المفاتيح
+document.addEventListener('keydown', (event) => {
+    // التحقق إذا كان المفتاح المضغوط هو Enter
+    if (event.key === 'Enter') {
+        // التأكد أننا حالياً في صفحة الدخول (ليست مخفية)
+        const loginPage = document.getElementById('loginPage');
+        if (loginPage && loginPage.style.display !== 'none') {
+            // منع السلوك الافتراضي للمتصفح (مثل تحديث الصفحة)
+            event.preventDefault();
+            // تنفيذ دالة الدخول
+            window.handleLogin();
+        }
+    }
+});
         window.createNewUser = async () => {
             const e = document.getElementById('newUserEmail').value; const p = document.getElementById('newUserPass').value;
             const r = document.getElementById('userRole').value; const d = document.getElementById('userDept').value;
