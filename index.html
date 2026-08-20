@@ -214,6 +214,66 @@
         border: 1px solid rgba(255,255,255,0.3); font-family: 'Cairo';
     }
 
+    /* تنسيق أيقونة المشروب */
+.bev-icon {
+    width: 35px;
+    height: 35px;
+    object-fit: cover; /* لضمان عدم تمطيط الصورة */
+    border-radius: 8px;
+    vertical-align: middle;
+    margin-left: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* تنسيق اسم المشروب بجانب الأيقونة */
+.bev-name-cell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: right;
+}
+
+.bev-icon {
+    cursor: zoom-in;
+    transition: transform 0.2s;
+}
+.bev-icon:hover { transform: scale(1.1); }
+
+/* تنسيق خلية المشروب */
+.bev-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.bev-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    cursor: zoom-in;
+    object-fit: cover;
+    border: 1px solid rgba(255,215,0,0.3);
+}
+
+/* نافذة عرض الصورة الكبيرة */
+#imageViewer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+#fullImage {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 15px;
+    border: 3px solid white;
+}
+
     /* الأزرار */
     .btn {
         padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;
@@ -303,7 +363,7 @@
 
     <div class="main-page" id="mainPage">
         <div class="header">
-            <div id="appTitle" style="font-weight: 800;">☕ بوفيه الذكي - <span id="displayUser"></span></div>
+            <div id="appTitle" style="font-weight: 800;">☕ بوفيه تجهيز المشروبات - <span id="displayUser"></span></div>
             <div style="display:flex; gap:10px;">
                 <button class="btn" style="background:#FF9800; color:white;" onclick="toggleAdmin()">⚙️ الإدارة</button>
                 <button class="btn btn-del" onclick="handleLogout()">🚪 خروج</button>
@@ -330,6 +390,33 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <div>
+    <h4>☕ إضافة مشروب جديد</h4>
+    <input type="text" id="bevName" placeholder="اسم المشروب (مثلاً: شاي)">
+    <input type="number" step="0.25" id="bevPrice" placeholder="السعر">
+    <!-- الخانة الجديدة لرابط الأيقونة -->
+    <input type="text" id="bevIcon" placeholder="رابط أيقونة المشروب من الإنترنت">
+    <button class="btn btn-save" onclick="addGlobalBeverage()">➕ إضافة للمنيو</button>
+    <!-- تحت زرار "إضافة للمنيو" مباشرة -->
+<div style="margin-top:20px; max-height: 300px; overflow-y: auto;">
+    <h4 style="color:var(--gold); border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 5px; margin-bottom: 10px;">📋 تعديل وحذف المشروبات الحالية</h4>
+    <table style="font-size: 12px; background: rgba(0,0,0,0.2) !important;">
+        <thead>
+            <tr>
+                <th>أيقونة</th>
+                <th>المشروب</th>
+                <th>السعر</th>
+                <th>تعديل</th>
+                <th>حذف</th>
+            </tr>
+        </thead>
+        <tbody id="adminDrinksManageBody">
+            <!-- سيتم ملء البيانات هنا تلقائياً -->
+        </tbody>
+    </table>
+</div>
+</div>
                     <div class="admin-card" style="padding:15px;">
                         <h4>👥 إضافة موظف</h4>
                         <input type="email" id="newUserEmail" placeholder="الايميل">
@@ -399,6 +486,17 @@
         </table>
         <div style="margin-top:50px; display:flex; justify-content:space-between;"><span>توقيع المستلم: _______</span><span>رئيس القسم: _______</span><span>المخزن: _______</span></div>
     </div>
+
+    <!-- نافذة تكبير الصورة (Image Viewer) -->
+<div id="imageViewer" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000; justify-content:center; align-items:center; cursor:pointer;" onclick="this.style.display='none'">
+    <img id="fullImage" src="" style="max-width:90%; max-height:80%; border:5px solid white; border-radius:15px; box-shadow:0 0 30px rgba(255,255,255,0.2);">
+    <p style="position:absolute; bottom:20px; color:white; font-family:'Cairo';">إضغط في أي مكان للإغلاق</p>
+</div>
+
+<div id="imageViewer" onclick="this.style.display='none'">
+    <img id="fullImage" src="">
+    <p style="color:white; margin-top:10px;">إضغط في أي مكان للإغلاق</p>
+</div>
 
     <script id="mainScript" type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -570,38 +668,38 @@
         };
 
         // --- الطلبات والتجهيز ---
-        window.processSale = async () => {
-    let freeLeft = getRemainingFreeToday();
+     window.processSale = async () => {
+    let freeL = getRemainingFreeToday();
     const itemsToSave = []; 
-    
+
     beverages.forEach((bev, i) => {
         const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
         const note = document.getElementById(`note_${i}`).value;
         if (qty > 0) {
-            let freeIn = (bev.price == 1.25 && freeLeft > 0) ? Math.min(qty, freeLeft) : 0;
-            freeLeft -= freeIn;
+            let freeIn = (bev.price == 1.25 && freeL > 0) ? Math.min(qty, freeL) : 0;
+            freeL -= freeIn;
             let lineT = (qty - freeIn) * bev.price;
 
-            // أضفنا كل مشروب في مصفوفة مستقلة ليتم حفظه كمستند منفصل
-            itemsToSave.push({
+            // الحفظ مع تضمين رابط الأيقونة لكي تظهر في السجل
+            itemsToSave.push({ 
                 name: bev.name, 
                 qty, 
                 price: bev.price, 
                 paidAmount: lineT, 
                 isFree: freeIn > 0, 
                 freeQty: freeIn,
-                note: note
+                note: note,
+                icon: bev.icon || 'https://cdn-icons-png.flaticon.com/512/924/924514.png' 
             });
         }
     });
 
-    if (itemsToSave.length === 0) return alert("⚠️ أدخل كمية");
+    if (itemsToSave.length === 0) return alert("⚠️ أدخل مشروبات أولاً");
 
     try {
-        // حفظ كل مشروب في مستند منفصل تماماً
         for (const item of itemsToSave) {
             await addDoc(collection(db, "all_orders"), {
-                items: [item], // مصفوفة فيها عنصر واحد فقط لضمان استقلال السطر
+                items: [item],
                 total: item.paidAmount,
                 timestamp: new Date(),
                 userId: currentUser.uid,
@@ -610,12 +708,10 @@
                 status: "pending"
             });
         }
-        
-        alert("✅ تم إرسال الطلبات للبوفيه بشكل مستقل");
+        alert("✅ تم إرسال الطلبات بنجاح");
         renderTable(); 
     } catch (e) { alert("خطأ: " + e.message); }
 };
-
         window.finishOrder = async (docId) => {
             const orderRef = doc(db, "all_orders", docId);
             const orderSnap = await getDoc(orderRef);
@@ -634,47 +730,92 @@
         };
 
         // --- المراقبة الحية ---
-        function listenToAllOrdersToday() {
-            const today = new Date(); today.setHours(0,0,0,0);
-            onSnapshot(query(collection(db, "all_orders"), where("timestamp", ">=", today)), (snap) => {
-                const tbody = document.getElementById('buffetLiveOrders'); tbody.innerHTML = '';
-                const usersSet = new Set(); buffetOrdersData = [];
-                let rows = [];
-                snap.forEach(d => {
-                    const data = d.data(); data.id = d.id; buffetOrdersData.push(data);
-                    if (userRole === "admin" || data.userDept === userDepartment) {
-                        usersSet.add(data.userName);
-                        data.items.forEach(item => {
-                            const isP = data.status === "pending";
-                            const action = isP ? `<button class="btn" style="background:#4caf50; font-size:10px" onclick="window.finishOrder('${d.id}')">✅ تجهيز</button>` : `<span style="color:#4caf50">✔️ جاهز</span>`;
-                            rows.push({ time: data.timestamp.toDate(), html: `<tr style="${isP?'border-right:5px solid red':'opacity:0.6'}"><td>${data.userName}</td><td>${data.userDept}</td><td>${data.timestamp.toDate().toLocaleTimeString('ar-EG')}</td><td>${item.name}</td><td>${item.qty}</td><td>${item.note||'-'}</td><td>${action}</td></tr>` });
-                        });
-                    }
-                });
-                tbody.innerHTML = rows.sort((a,b)=>b.time-a.time).map(r=>r.html).join('');
-                document.getElementById('exportFilterUser').innerHTML = '<option value="all">كل الموظفين</option>' + Array.from(usersSet).map(u => `<option value="${u}">${u}</option>`).join('');
-            });
-        }
+     function listenToAllOrdersToday() {
+    const today = new Date(); today.setHours(0,0,0,0);
+    onSnapshot(query(collection(db, "all_orders"), where("timestamp", ">=", today)), (snap) => {
+        const tbody = document.getElementById('buffetLiveOrders'); if(!tbody) return;
+        const filter = document.getElementById('exportFilterUser');
+        const usersSet = new Set(); buffetOrdersData = []; tbody.innerHTML = '';
+        let rows = [];
 
-        function listenToUserHistory() {
-            onSnapshot(query(collection(db, "all_orders"), where("userId", "==", currentUser.uid)), (snap) => {
-                const tbody = document.getElementById('historyBody'); tbody.innerHTML = '';
-                let total = 0; historyData = []; let rows = [];
-                snap.forEach(d => { historyData.push({id: d.id, ...d.data()}); });
-                historyData.sort((a,b)=>b.timestamp-a.timestamp).forEach((data, idx) => {
-                    total += Number(data.total);
-                    data.items.forEach(item => {
-                        const status = data.status === "completed" ? '<span class="status-completed">✔️ جاهز</span>' : '<span class="status-pending">⏳ تحضير</span>';
-                        rows.push(`<tr><td>${historyData.length-idx}</td><td>${data.timestamp.toDate().toLocaleDateString('ar-EG')}</td><td>${item.name}</td><td>${item.paidAmount.toFixed(2)}</td><td>${status}</td><td><button class="btn btn-del" style="padding:2px 5px" onclick="window.deleteSale('${data.id}')">🗑️</button></td></tr>`);
+        snap.forEach(dSnap => {
+            const data = dSnap.data(); data.id = dSnap.id; buffetOrdersData.push(data);
+            if (userRole === "admin" || data.userDept === userDepartment) {
+                if (data.userName) usersSet.add(data.userName);
+                data.items.forEach(item => {
+                    const isP = data.status === "pending";
+                    const action = isP ? `<button class="btn" style="background:#4caf50; font-size:10px" onclick="window.finishOrder('${dSnap.id}')">✅ تجهيز</button>` : `<span style="color:#4caf50; font-weight:bold">✔️ جاهز</span>`;
+                    const timeStr = data.timestamp ? data.timestamp.toDate().toLocaleTimeString('ar-EG') : '';
+                    const iconUrl = item.icon || 'https://cdn-icons-png.flaticon.com/512/924/924514.png';
+
+                    rows.push({ time: data.timestamp.toDate(), html: `
+                        <tr style="${isP?'border-right:5px solid red':'opacity:0.6'}">
+                            <td>${data.userName}</td>
+                            <td>${data.userDept}</td>
+                            <td>${timeStr}</td>
+                            <td>
+                                <div class="bev-name-cell">
+                                    <img src="${iconUrl}" class="bev-icon" onclick="window.viewImage('${iconUrl}')">
+                                    <span>${item.name}</span>
+                                </div>
+                            </td>
+                            <td>${item.qty}</td>
+                            <td>${item.note || '-'}</td>
+                            <td>${action}</td>
+                        </tr>` 
                     });
                 });
-                tbody.innerHTML = rows.join('');
-                document.getElementById('totalSales').innerText = total.toFixed(2);
-                document.getElementById('currentBon').innerText = Math.floor(total/50)+1;
-                document.getElementById('freeRemain').innerText = getRemainingFreeToday();
-            });
-        }
+            }
+        });
+        tbody.innerHTML = rows.sort((a,b)=>b.time-a.time).map(r=>r.html).join('');
+        filter.innerHTML = '<option value="all">كل الموظفين</option>' + Array.from(usersSet).map(u => `<option value="${u}">${u}</option>`).join('');
+    });
+}
+    window.viewImage = (url) => {
+        const viewer = document.getElementById('imageViewer');
+        const fullImg = document.getElementById('fullImage');
+        if(!url || url === 'undefined') url = 'https://cdn-icons-png.flaticon.com/512/924/924514.png';
+        fullImg.src = url;
+        viewer.style.display = 'flex';
+    };
 
+      function listenToUserHistory() {
+    onSnapshot(query(collection(db, "all_orders"), where("userId", "==", currentUser.uid)), (snap) => {
+        const tbody = document.getElementById('historyBody'); if(!tbody) return;
+        tbody.innerHTML = '';
+        let totalS = 0; historyData = []; let rows = [];
+        
+        snap.forEach(d => { historyData.push({id: d.id, ...d.data()}); });
+        historyData.sort((a,b) => b.timestamp - a.timestamp);
+
+        historyData.forEach((data, idx) => {
+            totalS += Number(data.total);
+            data.items.forEach(item => {
+                const status = data.status === "completed" ? '<span class="status-completed">✔️ تم التحضير</span>' : '<span class="status-pending">⏳ جاري التحضير</span>';
+                const d = data.timestamp ? data.timestamp.toDate() : new Date();
+                const iconUrl = item.icon || 'https://cdn-icons-png.flaticon.com/512/924/924514.png';
+
+                rows.push(`<tr>
+                    <td>${historyData.length - idx}</td>
+                    <td>${d.toLocaleDateString('ar-EG')}</td>
+                    <td>
+                        <div class="bev-name-cell">
+                            <img src="${iconUrl}" class="bev-icon" onclick="window.viewImage('${iconUrl}')">
+                            <span>${item.name}</span>
+                        </div>
+                    </td>
+                    <td>${item.qty}</td>
+                    <td>${item.paidAmount.toFixed(2)}</td>
+                    <td>${status}</td>
+                    <td><button class="btn btn-del" style="padding:2px 8px" onclick="window.deleteSale('${data.id}')">🗑️</button></td>
+                </tr>`);
+            });
+        });
+        tbody.innerHTML = rows.join('');
+        document.getElementById('totalSales').innerText = totalS.toFixed(2);
+        document.getElementById('currentBon').innerText = Math.floor(totalS/50)+1;
+    });
+}
         // --- دوال الإدارة والتقارير ---
         function generateExcelLayout(ordersArray) {
             const data = [["نظام بوفيه المشروبات ☕"], ["التاريخ:", new Date().toLocaleDateString('ar-EG')], [], ["#", "التاريخ", "الوقت", "المشروب", "الكمية", "السعر", "المدفوع", "البون", "المجانية"]];
@@ -833,8 +974,20 @@ window.editBuffetStock = async (uid, name, old) => { const n = prompt("تعدي�
         };
 
         window.renderTable = () => {
-            document.getElementById('bevTableBody').innerHTML = beverages.map((bev, i) => `<tr><td style="font-weight:bold">${bev.name}</td><td>${bev.price.toFixed(2)}</td><td><input type="number" class="qty-input" id="qty_${i}" value="0" min="0" oninput="window.calculateUI()"></td><td id="line_${i}">0.00</td><td><input type="text" class="note-input" id="note_${i}" placeholder="سكر.."></td><td id="status_note_${i}">-</td></tr>`).join('');
-        };
+    document.getElementById('bevTableBody').innerHTML = beverages.map((bev, i) => `
+        <tr>
+            <td class="bev-name-cell">
+                <img src="${bev.icon || 'https://cdn-icons-png.flaticon.com/512/924/924514.png'}" class="bev-icon">
+                <span style="font-weight:bold">${bev.name}</span>
+            </td>
+            <td>${bev.price.toFixed(2)}</td>
+            <td><input type="number" class="qty-input" id="qty_${i}" value="0" min="0" oninput="window.calculateUI()"></td>
+            <td id="line_${i}">0.00</td>
+            <td><input type="text" class="note-input" id="note_${i}" placeholder="سكر.."></td>
+            <td id="status_note_${i}">-</td>
+        </tr>`).join('');
+};
+
         window.calculateUI = () => {
         let freeL = getRemainingFreeToday();
         // التأكد أن القيمة رقمية وليست NaN
@@ -908,11 +1061,138 @@ window.editBuffetStock = async (uid, name, old) => { const n = prompt("تعدي�
     } catch (e) { alert("خطأ في الحذف: " + e.message); }
 };
         window.saveGlobalSettings = async () => { if(!isAuthorizedAdmin) return; await setDoc(doc(db, "settings", "global_config"), { bg: document.getElementById('setBgApp').value, logo: document.getElementById('setLogo').value }, { merge: true }); alert("✅ تم"); };
-        window.addGlobalBeverage = async () => { if(!isAuthorizedAdmin) return; await updateDoc(doc(db, "beverages", "global_list"), { list: arrayUnion({ name: document.getElementById('bevName').value, price: Number(document.getElementById('bevPrice').value) }) }); alert("✅ تم"); };
+       window.addGlobalBeverage = async () => {
+    if (!isAuthorizedAdmin) return alert("❌ افتح الإدارة أولاً");
+    
+    const name = document.getElementById('bevName').value;
+    const price = Number(document.getElementById('bevPrice').value);
+    const icon = document.getElementById('bevIcon').value || "https://cdn-icons-png.flaticon.com/512/924/924514.png"; // أيقونة افتراضية لو فارغة
+
+    if (name && price) {
+        await updateDoc(doc(db, "beverages", "global_list"), {
+            list: arrayUnion({ name, price, icon }) // حفظ الرابط مع المشروب
+        });
+        alert("✅ تمت إضافة المشروب بأيقونته!");
+        document.getElementById('bevName').value = '';
+        document.getElementById('bevPrice').value = '';
+        document.getElementById('bevIcon').value = '';
+    }
+};
         async function loadGlobalData() {
-            onSnapshot(doc(db, "settings", "global_config"), (s) => { if (s.exists()) { const d = s.data(); if(d.bg) document.body.style.backgroundImage = `url(${d.bg})`; if(d.logo) document.getElementById('globalLogo').src = d.logo; } });
-            onSnapshot(doc(db, "beverages", "global_list"), (s) => { if (s.exists()) { beverages = s.data().list; window.renderTable(); } });
+    // 1. مراقبة المظهر (خلفية ولوجو)
+    onSnapshot(doc(db, "settings", "global_config"), (snapshot) => {
+        if (snapshot.exists()) {
+            const config = snapshot.data();
+            // تغيير الخلفية بأمان
+            if (config.bg) {
+                document.body.style.backgroundImage = `url(${config.bg})`;
+            }
+            // تغيير الشعار بأمان (نتأكد أن العنصر موجود أولاً)
+            const logoImg = document.getElementById('globalLogo');
+            if (logoImg && config.logo) {
+                logoImg.src = config.logo;
+            }
         }
+    });
+
+    // 2. مراقبة قائمة المشروبات
+    onSnapshot(doc(db, "beverages", "global_list"), (snapshot) => {
+        if (snapshot.exists()) {
+            beverages = snapshot.data().list || [];
+        } else {
+            // إذا كانت القائمة غير موجودة، نضع قائمة افتراضية فارغة بدلاً من التوقف
+            beverages = [];
+        }
+
+        // تحديث جدول طلب الموظفين
+        window.renderTable(); 
+
+        // تحديث جدول إدارة المشروبات (فقط إذا كان الجدول موجوداً في الصفحة)
+        const adminTbody = document.getElementById('adminDrinksManageBody');
+        if (adminTbody) {
+            if (beverages.length === 0) {
+                adminTbody.innerHTML = '<tr><td colspan="5">لا توجد مشروبات.. أضف مشروباً جديداً</td></tr>';
+            } else {
+                adminTbody.innerHTML = beverages.map((bev, index) => `
+                    <tr>
+                        <td>
+                            <img src="${bev.icon || 'https://cdn-icons-png.flaticon.com/512/924/924514.png'}" 
+                                 style="width:25px; height:25px; border-radius:5px; object-fit:cover;">
+                        </td>
+                        <td style="font-weight:bold;">${bev.name}</td>
+                        <td style="color:var(--gold);">${Number(bev.price).toFixed(2)}</td>
+                        <td>
+                            <button class="btn" style="background:#1565C0; padding:4px 8px; font-size:10px;" 
+                                    onclick="window.initEditBeverage(${index})">📝 تعديل</button>
+                        </td>
+                        <td>
+                            <button class="btn" style="background:#c62828; padding:4px 8px; font-size:10px;" 
+                                    onclick="window.deleteBeverage(${index})">🗑️ حذف</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+    }, (error) => {
+        console.error("خطأ في جلب المشروبات:", error);
+    });
+}
+
+window.deleteBeverage = async (index) => {
+    if (confirm(`⚠️ هل أنت متأكد من حذف مشروب "${beverages[index].name}"؟`)) {
+        try {
+            const newList = [...beverages];
+            newList.splice(index, 1); // حذف العنصر المختار
+            await setDoc(doc(db, "beverages", "global_list"), { list: newList });
+            alert("✅ تم حذف المشروب من القائمة");
+        } catch (e) { alert("خطأ: " + e.message); }
+    }
+};
+
+window.initEditBeverage = async (index) => {
+    const bev = beverages[index];
+    const newName = prompt("تعديل اسم المشروب:", bev.name);
+    if (newName === null) return; // إلغاء
+
+    const newPrice = prompt("تعديل السعر:", bev.price);
+    if (newPrice === null) return;
+
+    const newIcon = prompt("تعديل رابط الأيقونة (URL):", bev.icon || "");
+    if (newIcon === null) return;
+
+    try {
+        const newList = [...beverages];
+        newList[index] = { 
+            name: newName, 
+            price: Number(newPrice), 
+            icon: newIcon 
+        };
+        await setDoc(doc(db, "beverages", "global_list"), { list: newList });
+        alert("✅ تم التعديل بنجاح");
+    } catch (e) { alert("خطأ: " + e.message); }
+};
+window.initEditBeverage = async (index) => {
+    const bev = beverages[index];
+    const newName = prompt("تعديل اسم المشروب:", bev.name);
+    if (newName === null) return; // إلغاء
+
+    const newPrice = prompt("تعديل السعر:", bev.price);
+    if (newPrice === null) return;
+
+    const newIcon = prompt("تعديل رابط الأيقونة (URL):", bev.icon || "");
+    if (newIcon === null) return;
+
+    try {
+        const newList = [...beverages];
+        newList[index] = { 
+            name: newName, 
+            price: Number(newPrice), 
+            icon: newIcon 
+        };
+        await setDoc(doc(db, "beverages", "global_list"), { list: newList });
+        alert("✅ تم التعديل بنجاح");
+    } catch (e) { alert("خطأ: " + e.message); }
+};
         window.createNewUser = async () => {
             const e = document.getElementById('newUserEmail').value; const p = document.getElementById('newUserPass').value;
             const r = document.getElementById('userRole').value; const d = document.getElementById('userDept').value;
