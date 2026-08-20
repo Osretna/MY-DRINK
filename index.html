@@ -622,8 +622,24 @@
         let currentUser = null; let userRole = "employee"; let userDepartment = "عام";
         let beverages = []; let historyData = []; let buffetOrdersData = []; let isAuthorizedAdmin = false;
 
-        const DRINK_RECIPES = { "شاي": {"شاي فتلة":1, "سكر":2}, "قهوة": {"بن":1, "سكر":2}, "نسكافيه": {"نسكافيه":1, "سكر":2}, "شاي باللبن": {"شاي فتلة":1, "سكر":2, "لبن":50}, "قهوة باللبن": {"بن":1, "سكر":2, "لبن":50} };
-
+        const DRINK_RECIPES = {
+    "شاي": { "شاي": 1, "سكر": 2 }, // يخصم فتلة واحدة و2 ملعقة سكر
+    "شاي بفتلة": { "شاي": 1, "سكر": 2 },
+    "قهوة": { "قهوة": 1, "سكر": 2 }, // يخصم مقدار بن واحد و2 سكر
+    "نسكافيه": { "نسكافيه": 1, "سكر": 2 },
+    "كاكاو": { "كاكاو": 1, "سكر": 2, "لبن": 50 }, // يخصم كاكاو وسكر ولبن
+    "يانسون": { "يانسون": 1, "سكر": 2 },
+    "كركريه": { "كركريه": 1, "سكر": 2 },
+    "شاي اخضر": { "شاي اخضر": 1, "سكر": 2 },
+    "قرفة": { "قرفة": 1, "سكر": 2 },
+    "زنجبيل": { "زنجبيل": 1, "سكر": 2 },
+    "زنجبيل بالليمون": { "زنجبيل": 1, "سكر": 2 },
+    "بردقوش": { "بردقوش": 1, "سكر": 2 },
+    "عصير": { "عصير": 1 }, // لو العصير معلب يخصم وحدة واحدة
+    "قهوة باللبن": { "قهوة": 1, "سكر": 2, "لبن": 50 },
+    "شاي باللبن": { "شاي": 1, "سكر": 2, "لبن": 50 },
+    "قرفة باللبن": { "قرفة": 1, "سكر": 2, "لبن": 50 }
+};
         
         window.handleLogin = async () => {
             const e = document.getElementById('email').value.trim();
@@ -816,23 +832,48 @@
         renderTable(); 
     } catch (e) { alert("خطأ: " + e.message); }
 };
-        window.finishOrder = async (docId) => {
-            const orderRef = doc(db, "all_orders", docId);
-            const orderSnap = await getDoc(orderRef);
-            const data = orderSnap.data();
-            const bRef = doc(db, "buffet_stock", currentUser.uid);
-            const bSnap = await getDoc(bRef);
-            if (bSnap.exists()) {
-                let mats = bSnap.data().materials;
-                data.items.forEach(item => {
-                    const recipe = DRINK_RECIPES[item.name];
-                    if (recipe) { for (const ing in recipe) { if (mats[ing]) mats[ing] -= (recipe[ing] * item.qty); } }
-                });
-                await updateDoc(bRef, { materials: mats });
-            }
-            await updateDoc(orderRef, { status: "completed" });
-        };
+      window.finishOrder = async (docId) => {
+    try {
+        const orderRef = doc(db, "all_orders", docId);
+        const orderSnap = await getDoc(orderRef);
+        if (!orderSnap.exists()) return;
 
+        const orderData = orderSnap.data();
+        const buffetStockRef = doc(db, "buffet_stock", currentUser.uid);
+        const buffetSnap = await getDoc(buffetStockRef);
+
+        if (buffetSnap.exists()) {
+            let materials = buffetSnap.data().materials || {};
+            
+            // نمر على كل مشروب في الطلب
+            orderData.items.forEach(item => {
+                const recipe = DRINK_RECIPES[item.name]; // جلب المكونات من القائمة
+                if (recipe) {
+                    for (const ingredient in recipe) {
+                        // إذا كانت الخامة موجودة في عهدة الموظف
+                        if (materials[ingredient] !== undefined) {
+                            const consumedAmount = recipe[ingredient] * item.qty;
+                            materials[ingredient] = Number(materials[ingredient]) - consumedAmount;
+                            
+                            // ضمان عدم نزول الرصيد تحت الصفر بشكل غير منطقي (اختياري)
+                            if (materials[ingredient] < 0) materials[ingredient] = 0;
+                        }
+                    }
+                }
+            });
+            // تحديث العهدة في السحابة
+            await updateDoc(buffetStockRef, { materials: materials });
+        }
+
+        // تحديث حالة الطلب إلى مكتمل
+        await updateDoc(orderRef, { status: "completed" });
+        console.log("✅ تم تجهيز المشروب وخصم كافة الخامات من العهدة");
+        
+    } catch (e) {
+        console.error("خطأ في التجهيز والخصم:", e);
+        alert("❌ حدث خطأ أثناء الخصم: " + e.message);
+    }
+};
         window.showNotification = (userName, drinkName) => {
     // 1. تشغيل الصوت
     notificationSound.play().catch(e => console.log("Sound error:", e));
