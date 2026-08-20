@@ -149,11 +149,43 @@
         width: 100%; max-height: 180px;
         object-fit: contain; margin-bottom: 20px; border-radius: 15px;
     }
+/* 1. خلفية التطبيق وصفحة الدخول (تظهر كاملة وبجودة عالية) */
+body, .login-page {
+    background-size: 100% 100%; /* تمديد الصورة لتملأ الشاشة بالكامل بدون قص */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* تجعل الخلفية ثابتة مما يزيد من حدة وجودة الصورة */
+    image-rendering: -webkit-optimize-contrast; /* تحسين حدة الصور في المتصفحات */
+}
 
+/* 2. اللوجو (في صفحة الدخول وفي الهيدر) - يظهر كاملاً مهما كان مقاسه */
+.login-logo, .header-logo-img, #headerCustomIcon {
+    object-fit: contain !important; /* أهم خاصية: تمنع قص أي جزء من الصورة وتحافظ على أبعادها الأصلية */
+    image-rendering: auto;
+}
+
+/* 3. أيقونات المشروبات في الجداول - تظهر كاملة وبدون تمطيط */
+.bev-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain !important; /* تضمن ظهور أيقونة المشروب كاملة داخل المربع */
+    background: rgba(255, 255, 255, 0.05); /* خلفية خفيفة جداً لإبراز الأيقونة */
+    border-radius: 5px;
+}
+
+/* 4. الصورة عند تكبيرها (Image Viewer) */
+#fullImage {
+    max-width: 95%;
+    max-height: 90%;
+    object-fit: contain; /* تظهر الصورة الكبيرة كاملة عند الضغط عليها */
+    border: 2px solid #fff;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
     .login-box input {
         width: 100%; padding: 12px; margin: 10px 0;
         border-radius: 12px; border: 1px solid rgba(255,255,255,0.3);
         background: rgba(255,255,255,0.1) !important;
+        background-color: rgba(255, 255, 255, 0.15); /* هذا اللون الافتراضي */
         color: #fff !important; font-weight: 600; outline: none;
     }
 
@@ -169,14 +201,12 @@
     .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
 
     /* العناصر الزجاجية (Glassmorphism) */
-    .card, table, .admin-panel, .history-section {
-        background: var(--glass-bg) !important;
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 15px;
-        margin-bottom: 20px;
-        overflow: hidden;
-    }
+    /* الشفافية 85% لجميع العناصر الزجاجية */
+.history-section, .admin-panel, table, .card, .login-box {
+    background: rgba(255, 255, 255, 0.15) !important; /* شفافة بنسبة 85% */
+    backdrop-filter: blur(12px) !important; /* تأثير التغبيش الاحترافي */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
 
     /* ضبط عرض خانة الملاحظات لتناسب الترتيب الجديد */
     .note-input {
@@ -493,32 +523,56 @@
                         </table>
                     </div>
 
+                    <!-- داخل admin-panel في قسم المظهر -->
+                    <div class="admin-card" style="padding:15px; border:1px solid rgba(255,255,255,0.1); border-radius:10px;">
+                        <h4>🎨 تخصيص المظهر (Global)</h4>
+                        
+                        <label style="font-size: 12px;">🖼️ رابط خلفية التطبيق الرئيسية:</label>
+                        <input type="text" id="setBgApp" placeholder="https://رابط_الصورة.jpg">
+                        
+                        <label style="font-size: 12px;">🔐 رابط خلفية صفحة الدخول:</label>
+                        <input type="text" id="setBgLogin" placeholder="https://رابط_الصورة.jpg">
+                        
+                        <label style="font-size: 12px;">🏷️ رابط لوجو التطبيق:</label>
+                        <input type="text" id="setLogo" placeholder="https://رابط_اللوجو.png">
+                        
+                        <label style="font-size: 11px;">🎨 لون خلفية خانات الكتابة (Login Inputs):</label>
+<input type="text" id="setLoginInputBg" placeholder="مثال: rgba(255,255,255,0.2)">
+
+<label style="font-size: 11px;">🟢 لون زر الدخول (Login Button):</label>
+<input type="color" id="setLoginBtnColor" style="height:40px; padding:2px;">
+
+<!-- تعديل زر الحفظ ليشمل البيانات الجديدة -->
+<button class="btn btn-save" style="width:100%; margin-top:10px;" onclick="saveGlobalSettings()">💾 حفظ المظهر للجميع</button>
+                    </div>
+
                     <div>
-    <h4>☕ إضافة مشروب جديد</h4>
-    <input type="text" id="bevName" placeholder="اسم المشروب (مثلاً: شاي)">
-    <input type="number" step="0.25" id="bevPrice" placeholder="السعر">
-    <!-- الخانة الجديدة لرابط الأيقونة -->
-    <input type="text" id="bevIcon" placeholder="رابط أيقونة المشروب من الإنترنت">
-    <button class="btn btn-save" onclick="addGlobalBeverage()">➕ إضافة للمنيو</button>
-    <!-- تحت زرار "إضافة للمنيو" مباشرة -->
-<div style="margin-top:20px; max-height: 300px; overflow-y: auto;">
-    <h4 style="color:var(--gold); border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 5px; margin-bottom: 10px;">📋 تعديل وحذف المشروبات الحالية</h4>
-    <table style="font-size: 12px; background: rgba(0,0,0,0.2) !important;">
-        <thead>
-            <tr>
-                <th>أيقونة</th>
-                <th>المشروب</th>
-                <th>السعر</th>
-                <th>تعديل</th>
-                <th>حذف</th>
-            </tr>
-        </thead>
-        <tbody id="adminDrinksManageBody">
-            <!-- سيتم ملء البيانات هنا تلقائياً -->
-        </tbody>
-    </table>
-</div>
-</div>
+                        <h4>☕ إضافة مشروب جديد</h4>
+                        <input type="text" id="bevName" placeholder="اسم المشروب (مثلاً: شاي)">
+                        <input type="number" step="0.25" id="bevPrice" placeholder="السعر">
+                        <!-- الخانة الجديدة لرابط الأيقونة -->
+                        <input type="text" id="bevIcon" placeholder="رابط أيقونة المشروب من الإنترنت">
+                        <button class="btn btn-save" onclick="addGlobalBeverage()">➕ إضافة للمنيو</button>
+                        <!-- تحت زرار "إضافة للمنيو" مباشرة -->
+                    <div style="margin-top:20px; max-height: 300px; overflow-y: auto;">
+                        <h4 style="color:var(--gold); border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 5px; margin-bottom: 10px;">📋 تعديل وحذف المشروبات الحالية</h4>
+                        <table style="font-size: 12px; background: rgba(0,0,0,0.2) !important;">
+                            <thead>
+                                <tr>
+                                    <th>أيقونة</th>
+                                    <th>المشروب</th>
+                                    <th>السعر</th>
+                                    <th>تعديل</th>
+                                    <th>حذف</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminDrinksManageBody">
+                                <!-- سيتم ملء البيانات هنا تلقائياً -->
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+
                     <div class="admin-card" style="padding:15px;">
                         <h4>👥 إضافة موظف</h4>
                         <input type="email" id="newUserEmail" placeholder="الايميل">
@@ -578,28 +632,28 @@
         </div>
     </div>
 
-    <!-- إذن صرف للطباعة -->
-    <div id="printableRequisition" style="display:none; direction:rtl; padding:30px; font-family:Arial; color:black; background:white; border:2px solid #000;">
-        <h2 style="text-align:center;">إذن صرف مواد خام</h2>
-        <p>التاريخ: <span id="pDate"></span> | رقم الإذن: <span id="pID"></span></p>
-        <p>الموظف: <span id="pUser"></span> | الإدارة: <span id="pDept"></span></p>
-        <table border="1" style="width:100%; border-collapse:collapse; margin:20px 0; text-align:center;">
-            <thead><tr><th>الصنف</th><th>الكمية</th><th>الوحدة</th></tr></thead>
-            <tbody><tr><td id="pItemName"></td><td id="pQty"></td><td id="pUnit"></td></tr></tbody>
-        </table>
-        <div style="margin-top:50px; display:flex; justify-content:space-between;"><span>توقيع المستلم: _______</span><span>رئيس القسم: _______</span><span>المخزن: _______</span></div>
-    </div>
+            <!-- إذن صرف للطباعة -->
+            <div id="printableRequisition" style="display:none; direction:rtl; padding:30px; font-family:Arial; color:black; background:white; border:2px solid #000;">
+                <h2 style="text-align:center;">إذن صرف مواد خام</h2>
+                <p>التاريخ: <span id="pDate"></span> | رقم الإذن: <span id="pID"></span></p>
+                <p>الموظف: <span id="pUser"></span> | الإدارة: <span id="pDept"></span></p>
+                <table border="1" style="width:100%; border-collapse:collapse; margin:20px 0; text-align:center;">
+                    <thead><tr><th>الصنف</th><th>الكمية</th><th>الوحدة</th></tr></thead>
+                    <tbody><tr><td id="pItemName"></td><td id="pQty"></td><td id="pUnit"></td></tr></tbody>
+                </table>
+                <div style="margin-top:50px; display:flex; justify-content:space-between;"><span>توقيع المستلم: _______</span><span>رئيس القسم: _______</span><span>المخزن: _______</span></div>
+            </div>
 
-    <!-- نافذة تكبير الصورة (Image Viewer) -->
-<div id="imageViewer" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000; justify-content:center; align-items:center; cursor:pointer;" onclick="this.style.display='none'">
-    <img id="fullImage" src="" style="max-width:90%; max-height:80%; border:5px solid white; border-radius:15px; box-shadow:0 0 30px rgba(255,255,255,0.2);">
-    <p style="position:absolute; bottom:20px; color:white; font-family:'Cairo';">إضغط في أي مكان للإغلاق</p>
-</div>
+                <!-- نافذة تكبير الصورة (Image Viewer) -->
+            <div id="imageViewer" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000; justify-content:center; align-items:center; cursor:pointer;" onclick="this.style.display='none'">
+                <img id="fullImage" src="" style="max-width:90%; max-height:80%; border:5px solid white; border-radius:15px; box-shadow:0 0 30px rgba(255,255,255,0.2);">
+                <p style="position:absolute; bottom:20px; color:white; font-family:'Cairo';">إضغط في أي مكان للإغلاق</p>
+            </div>
 
-<div id="imageViewer" onclick="this.style.display='none'">
-    <img id="fullImage" src="">
-    <p style="color:white; margin-top:10px;">إضغط في أي مكان للإغلاق</p>
-</div>
+            <div id="imageViewer" onclick="this.style.display='none'">
+                <img id="fullImage" src="">
+                <p style="color:white; margin-top:10px;">إضغط في أي مكان للإغلاق</p>
+            </div>
 
     <script id="mainScript" type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -1419,8 +1473,24 @@ window.editBuffetStock = async (uid, name, old) => { const n = prompt("تعدي�
         }
     } catch (e) { alert("خطأ في الحذف: " + e.message); }
 };
-        window.saveGlobalSettings = async () => { if(!isAuthorizedAdmin) return; await setDoc(doc(db, "settings", "global_config"), { bg: document.getElementById('setBgApp').value, logo: document.getElementById('setLogo').value }, { merge: true }); alert("✅ تم"); };
-       window.addGlobalBeverage = async () => {
+   window.saveGlobalSettings = async () => {
+    if (!isAuthorizedAdmin) return alert("❌ يرجى فتح الإدارة أولاً");
+    
+    const config = {
+        bg: document.getElementById('setBgApp').value.trim(),
+        bgLogin: document.getElementById('setBgLogin').value.trim(),
+        logo: document.getElementById('setLogo').value.trim(),
+        // الألوان الجديدة
+        loginInputBg: document.getElementById('setLoginInputBg').value.trim(),
+        loginBtnBg: document.getElementById('setLoginBtnColor').value
+    };
+    
+    try {
+        await setDoc(doc(db, "settings", "global_config"), config, { merge: true });
+        alert("✅ تم تحديث مظهر صفحة الدخول والنظام للجميع!");
+    } catch (e) { alert("❌ خطأ: " + e.message); }
+};
+    window.addGlobalBeverage = async () => {
     if (!isAuthorizedAdmin) return alert("❌ افتح الإدارة أولاً");
     
     const name = document.getElementById('bevName').value;
@@ -1440,19 +1510,38 @@ window.editBuffetStock = async (uid, name, old) => { const n = prompt("تعدي�
         async function loadGlobalData() {
     // 1. مراقبة المظهر (خلفية ولوجو)
     onSnapshot(doc(db, "settings", "global_config"), (snapshot) => {
-        if (snapshot.exists()) {
-            const config = snapshot.data();
-            // تغيير الخلفية بأمان
-            if (config.bg) {
-                document.body.style.backgroundImage = `url(${config.bg})`;
-            }
-            // تغيير الشعار بأمان (نتأكد أن العنصر موجود أولاً)
-            const logoImg = document.getElementById('globalLogo');
-            if (logoImg && config.logo) {
-                logoImg.src = config.logo;
-            }
+    if (snapshot.exists()) {
+        const config = snapshot.data();
+        
+        // 1. الخلفيات واللوجو (كما فعلنا سابقاً)
+        if(config.bg) document.body.style.backgroundImage = `url(${config.bg})`;
+        if(config.bgLogin) document.getElementById('loginPage').style.backgroundImage = `url(${config.bgLogin})`;
+        if(config.logo) {
+    const lLogo = document.getElementById('globalLogo');
+    const hLogo = document.getElementById('headerCustomIcon');
+    if(lLogo) {
+        lLogo.src = config.logo;
+        lLogo.style.objectFit = "contain"; // تأكيد برمجي
+    }
+    if(hLogo) {
+        hLogo.src = config.logo;
+        hLogo.style.objectFit = "contain"; // تأكيد برمجي
+    }
+}
+
+        // 2. تطبيق الألوان الجديدة لصفحة الدخول
+        if(config.loginInputBg) {
+            // نغير لون كل خانات الإدخال في صفحة الدخول
+            const inputs = document.querySelectorAll('.login-box input');
+            inputs.forEach(inp => inp.style.backgroundColor = config.loginInputBg);
         }
-    });
+        if(config.loginBtnBg) {
+            // نغير لون زر الدخول
+            const loginBtn = document.querySelector('#loginPage .btn-save');
+            if(loginBtn) loginBtn.style.backgroundColor = config.loginBtnBg;
+        }
+    }
+});
 
     // 2. مراقبة قائمة المشروبات
     onSnapshot(doc(db, "beverages", "global_list"), (snapshot) => {
