@@ -703,36 +703,77 @@ body, .login-page {
 
         window.handleLogout = async () => { if(confirm("خروج؟")) { await signOut(auth); location.reload(); } };
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                const meta = await getDoc(doc(db, "users_metadata", user.uid));
-                if (meta.exists()) { userRole = meta.data().role; userDepartment = meta.data().department; }
-                
-                document.getElementById('displayUser').innerText = user.email.split('@')[0];
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('mainPage').style.display = 'block';
-
-                if (userRole === "buffet") { 
-                    document.getElementById('buffetDashboard').style.display = 'block';
-                    document.getElementById('employeeOrderingView').style.display = 'none';
-                    listenToAllOrdersToday(); listenToBuffetStock();
-                } else if (userRole === "admin") {
-                    listenToCentralInventory(); 
-                    listenToAllBuffetStocks();
-                    listenToRequisitionArchive();
-                    listenToAllOrdersToday();
-                } else {
-                    document.getElementById('buffetDashboard').style.display = 'none';
-                    listenToUserHistory();
-                }
-                loadGlobalData(); loadDepartments(); loadAllUsersForManagement();
-            } else {
-                document.getElementById('loginPage').style.display = 'flex';
-                document.getElementById('mainPage').style.display = 'none';
+        // --- دالة المظهر العالمي (تعمل للكل حتى قبل الدخول) ---
+function initializeGlobalTheme() {
+    onSnapshot(doc(db, "settings", "global_config"), (snapshot) => {
+        if (snapshot.exists()) {
+            const config = snapshot.data();
+            
+            // 1. تثبيت الخلفيات (جودة عالية بدون قص)
+            if (config.bg) {
+                document.body.style.backgroundImage = `url(${config.bg})`;
+                document.body.style.backgroundSize = "100% 100%";
             }
-        });
+            if (config.bgLogin) {
+                const loginPage = document.getElementById('loginPage');
+                if (loginPage) {
+                    loginPage.style.backgroundImage = `url(${config.bgLogin})`;
+                    loginPage.style.backgroundSize = "100% 100%";
+                }
+            }
 
+            // 2. تثبيت اللوجو في كل مكان
+            if (config.logo) {
+                const lLogo = document.getElementById('globalLogo');
+                const hLogo = document.getElementById('headerCustomIcon');
+                if (lLogo) lLogo.src = config.logo;
+                if (hLogo) hLogo.src = config.logo;
+            }
+
+            // 3. تثبيت ألوان صفحة الدخول (الخانات والزر)
+            const inputs = document.querySelectorAll('.login-box input');
+            if (config.loginInputBg) {
+                inputs.forEach(inp => inp.style.backgroundColor = config.loginInputBg);
+            }
+            const loginBtn = document.querySelector('#loginPage .btn-save');
+            if (loginBtn && config.loginBtnBg) {
+                loginBtn.style.backgroundColor = config.loginBtnBg;
+            }
+        }
+    });
+}
+
+// تشغيل الدالة فوراً عند فتح الصفحة
+initializeGlobalTheme();
+      onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        currentUser = user;
+        // جلب صلاحيات المستخدم فقط هنا
+        const meta = await getDoc(doc(db, "users_metadata", user.uid));
+        if (meta.exists()) { 
+            userRole = meta.data().role; 
+            userDepartment = meta.data().department; 
+        }
+        
+        document.getElementById('displayUser').innerText = user.email.split('@')[0];
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('mainPage').style.display = 'block';
+
+        // تشغيل مراقبي الجداول حسب الدور
+        if (userRole === "buffet") { 
+            listenToAllOrdersToday(); listenToBuffetStock();
+        } else if (userRole === "admin") {
+            listenToCentralInventory(); listenToAllBuffetStocks(); listenToRequisitionArchive(); listenToAllOrdersToday(); listenToUserHistory();
+        } else {
+            listenToUserHistory();
+        }
+        loadDepartments();
+    } else {
+        // عند الخروج تظل الخلفية ثابتة بفضل initializeGlobalTheme
+        document.getElementById('loginPage').style.display = 'flex';
+        document.getElementById('mainPage').style.display = 'none';
+    }
+});
         // --- المخازن والعهدة ---
        function listenToCentralInventory() {
     // 1. فحص وجود الجدول في الصفحة
