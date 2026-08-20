@@ -12,7 +12,7 @@
     <!-- جعل الموقع متوافق مع نظام أبل -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/924/924514.png">
+    <link rel="apple-touch-icon" href="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o=">
     <!-- الوسوم الأساسية لتحسين محركات البحث -->
     <title>نظام بوفيه المشروبات الذكي | إدارة المبيعات والبونات سحابياً</title>
     <meta name="description" content="أفضل نظام سحابي متكامل لإدارة بوفيه المشروبات للمؤسسات. تتبع المبيعات، حساب البونات، إدارة المشروبات المجانية، وتصدير تقارير Excel احترافية.">
@@ -361,6 +361,26 @@
         background: #4caf50; color: white; padding: 4px 10px; 
         border-radius: 6px; font-size: 12px; font-weight: bold;
     }
+    #appTitle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-logo-box {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #FFD700;
+    background: #fff;
+}
+
+.header-logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
@@ -422,7 +442,7 @@
 
     <div class="login-page" id="loginPage">
         <div class="login-box">
-            <img id="globalLogo" src="https://cdn-icons-png.flaticon.com/512/924/924514.png" style="width:100px; margin-bottom:15px; object-fit: contain;">
+            <img id="globalLogo" src="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o=" style="width:100px; margin-bottom:15px; object-fit: contain;">
             <h2 style="color: var(--gold); margin-bottom: 20px;">دخول نظام البوفيه</h2>
             <input type="email" id="email" placeholder="البريد الإلكتروني">
             <input type="password" id="password" placeholder="كلمة المرور">
@@ -432,13 +452,25 @@
     </div>
 
     <div class="main-page" id="mainPage">
-        <div class="header">
-            <div id="appTitle" style="font-weight: 800;">☕ بوفيه تجهيز المشروبات - <span id="displayUser"></span></div>
-            <div style="display:flex; gap:10px;">
-                <button class="btn" style="background:#FF9800; color:white;" onclick="toggleAdmin()">⚙️ الإدارة</button>
-                <button class="btn btn-del" onclick="handleLogout()">🚪 خروج</button>
-            </div>
+        <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 25px;">
+    
+    <!-- الجهة اليمنى: الصورة الدائرية والعنوان -->
+    <div id="appTitle" style="display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.2rem;">
+        <div style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: white; flex-shrink: 0;">
+            <img id="headerCustomIcon" 
+                 src="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o=" 
+                 style="width: 100%; height: 100%; object-fit: cover;">
         </div>
+        <span>بوفيه تجهيز المشروبات - <span id="displayUser" style="color: var(--gold);"></span></span>
+    </div>
+
+    <!-- الجهة اليسرى: الأزرار مجمعة معاً لضمان عدم تحركها للمنتصف -->
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <button class="btn" style="background:#FF9800; color:white;" onclick="toggleAdmin()">⚙️ الإدارة</button>
+        <button class="btn btn-del" onclick="handleLogout()">🚪 خروج</button>
+    </div>
+
+</div>
 
         <div class="container">
             <div id="adminPanel" class="admin-panel" style="padding: 20px; display: none;">
@@ -519,6 +551,7 @@
                 <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
                     <select id="exportFilterUser" style="width:200px"></select>
                     <button class="btn" style="background:#1565C0; color:white" onclick="exportToExcelFiltered()">📊 تقرير الموظف</button>
+                    <button class="btn btn-save" style="background:#2E7D32; width:auto" onclick="exportToExcelAll()">📊 تصدير كل الموظفين</button>
                     <button class="btn" style="background:#6A1B9A; color:white" onclick="showRequisitionModal()">📝 طلب صرف خامات</button>
                 </div>
                 <div id="buffetLocalStock" style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;"></div>
@@ -1005,25 +1038,122 @@ function listenToAllOrdersToday() {
     });
 }
         // --- دوال الإدارة والتقارير ---
-        function generateExcelLayout(ordersArray) {
-            const data = [["نظام بوفيه المشروبات ☕"], ["التاريخ:", new Date().toLocaleDateString('ar-EG')], [], ["#", "التاريخ", "الوقت", "المشروب", "الكمية", "السعر", "المدفوع", "البون", "المجانية"]];
-            let totalS = 0; let bonA = 0; let count = 1;
-            ordersArray.sort((a,b)=>a.timestamp-b.timestamp).forEach(o => {
-                o.items.forEach(i => {
-                    totalS = Number((totalS + i.paidAmount).toFixed(2));
-                    bonA = Number((bonA + i.paidAmount).toFixed(2));
-                    data.push([count++, o.timestamp.toDate().toLocaleDateString('ar-EG'), o.timestamp.toDate().toLocaleTimeString('ar-EG'), i.name, i.qty, i.price.toFixed(2), i.paidAmount.toFixed(2), Math.floor(bonA/50)+1, i.isFree ? "نعم" : "لا"]);
-                });
-            });
-            data.push([], ["", "", "", "الإجمالي النهائي:", "", "", totalS.toFixed(2) + " ج.م"]);
-            const ws = XLSX.utils.aoa_to_sheet(data);
-            ws['!merges'] = [{ s:{r:0,c:0}, e:{r:0,c:8} }];
-            return ws;
-        }
+      function generateExcelLayout(ordersArray) {
+    // 1. تعريف رأس الجدول (تم إضافة عمود الموظف في المركز الثاني)
+    const data = [
+        ["نظام بوفيه المشروبات الذكي ☕"],
+        ["التاريخ:", new Date().toLocaleDateString('ar-EG')],
+        [],
+        ["#", "الموظف", "التاريخ", "الوقت", "المشروب", "الكمية", "السعر", "المدفوع", "البون", "المجانية"]
+    ];
 
+    let totalSumInReport = 0; 
+    let bonAccumulator = 0;  
+    let rowCounter = 1;
+
+    // 2. ترتيب البيانات من الأقدم للأحدث لضبط تسلسل البونات
+    const sortedOrders = [...ordersArray].sort((a, b) => {
+        const timeA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
+        const timeB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
+        return timeA - timeB;
+    });
+
+    // 3. بناء الأسطر مع إضافة اسم الموظف
+    sortedOrders.forEach(order => {
+        const d = order.timestamp?.toDate ? order.timestamp.toDate() : new Date(order.timestamp);
+        const dateStr = d.toLocaleDateString('ar-EG');
+        const timeStr = d.toLocaleTimeString('ar-EG');
+        const employeeName = order.userName || "غير معروف"; // جلب اسم الموظف
+
+        order.items.forEach(item => {
+            const itemPrice = Number(item.price) || 0;
+            const itemPaid = Number(item.paidAmount) || 0;
+            const itemQty = Number(item.qty) || 0;
+
+            totalSumInReport = Number((totalSumInReport + itemPaid).toFixed(2));
+            bonAccumulator = Number((bonAccumulator + itemPaid).toFixed(2));
+            const bonNumber = Math.floor(bonAccumulator / 50) + 1;
+
+            data.push([
+                rowCounter++,
+                employeeName, // العمود الجديد
+                dateStr,
+                timeStr,
+                item.name,
+                itemQty,
+                itemPrice.toFixed(2),
+                itemPaid.toFixed(2),
+                bonNumber,
+                item.isFree ? "نعم" : "لا"
+            ]);
+        });
+    });
+
+    // 4. سطر الإجمالي النهائي
+    data.push([]);
+    data.push([
+        "", "", "", "", "", "", 
+        "الإجمالي النهائي:", 
+        totalSumInReport.toFixed(2) + " ج.م", 
+        "", ""
+    ]);
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+
+    // 5. ضبط التنسيق (زيادة نطاق الدمج ليشمل 10 أعمدة)
+    ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 9 } }]; // من A إلى J
+
+    // ضبط عرض الأعمدة ليكون مريحاً (إضافة عرض لعمود الموظف)
+    ws['!cols'] = [
+        { wch: 6 },  // #
+        { wch: 15 }, // الموظف
+        { wch: 15 }, // التاريخ
+        { wch: 15 }, // الوقت
+        { wch: 22 }, // المشروب
+        { wch: 8 },  // الكمية
+        { wch: 12 }, // السعر
+        { wch: 15 }, // المدفوع
+        { wch: 10 }, // البون
+        { wch: 12 }  // المجانية
+    ];
+
+    return ws;
+}
         window.exportUserHistoryExcel = () => { if(!historyData.length) return; const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, generateExcelLayout(historyData), "Report"); XLSX.writeFile(wb, "MySales.xlsx"); };
-        window.exportToExcelFiltered = () => { const sel = document.getElementById('exportFilterUser').value; const filtered = sel==='all'?buffetOrdersData:buffetOrdersData.filter(o=>o.userName===sel); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, generateExcelLayout(filtered), "Report"); XLSX.writeFile(wb, `Report_${sel}.xlsx`); };
-        window.exportToExcelAll = () => { document.getElementById('exportFilterUser').value='all'; window.exportToExcelFiltered(); };
+        // تأكد أن دالة التصدير الموحدة مكتوبة بهذا الشكل لتدعم الخيارين
+window.exportToExcelFiltered = () => {
+    const selectedUser = document.getElementById('exportFilterUser').value;
+    
+    // التحقق من وجود بيانات (نستخدم المصفوفة العالمية التي تملأها دالة listenToAllOrdersToday)
+    if (!buffetOrdersData || buffetOrdersData.length === 0) {
+        return alert("⚠️ لا توجد طلبات مسجلة اليوم لتصديرها");
+    }
+
+    // فلترة البيانات بناءً على الموظف المختار أو اختيار الكل
+    const filtered = selectedUser === 'all' ? 
+        buffetOrdersData : 
+        buffetOrdersData.filter(o => o.userName === selectedUser);
+
+    if (filtered.length === 0) return alert("⚠️ لا توجد بيانات لهذا الموظف");
+
+    // توليد شيت الاكسل باستخدام التنسيق الموحد المبدع
+    const ws = generateExcelLayout(filtered); 
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "التقرير");
+    
+    const fileName = selectedUser === 'all' ? "تقرير_شامل_لكل_الموظفين.xlsx" : `تقرير_الموظف_${selectedUser}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+    alert("✅ تم تصدير ملف الاكسل بنجاح!");
+};
+
+       // دالة تصدير الكل: تقوم بتغيير الاختيار إلى "all" ثم تشغل دالة التصدير
+window.exportToExcelAll = () => {
+    const filterSelect = document.getElementById('exportFilterUser');
+    if (filterSelect) {
+        filterSelect.value = 'all'; // تحويل الاختيار للكل برمجياً
+        window.exportToExcelFiltered(); // تشغيل دالة التصدير الموحدة
+    }
+};
 
      window.toggleAdmin = () => {
     const p = document.getElementById('adminPanel');
