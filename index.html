@@ -12,16 +12,19 @@
     <!-- جعل الموقع متوافق مع نظام أبل -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o=">
+    <link rel="apple-touch-icon"
+        href="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o=">
     <!-- الوسوم الأساسية لتحسين محركات البحث -->
     <title>نظام بوفيه المشروبات الذكي | إدارة المبيعات والبونات سحابياً</title>
-    <meta name="description" content="أفضل نظام سحابي متكامل لإدارة بوفيه المشروبات للمؤسسات. تتبع المبيعات، حساب البونات، إدارة المشروبات المجانية، وتصدير تقارير Excel احترافية.">
-    <meta name="keywords" content="نظام بوفيه، إدارة بوفيه، حساب مبيعات مشروبات، نظام بونات، إدارة بوفيه سحابي، تطبيق بوفيه أندرويد">
+    <meta name="description"
+        content="أفضل نظام سحابي متكامل لإدارة بوفيه المشروبات للمؤسسات. تتبع المبيعات، حساب البونات، إدارة المشروبات المجانية، وتصدير تقارير Excel احترافية.">
+    <meta name="keywords"
+        content="نظام بوفيه، إدارة بوفيه، حساب مبيعات مشروبات، نظام بونات، إدارة بوفيه سحابي، تطبيق بوفيه أندرويد">
     <meta name="author" content="Buffet Smart System">
     <meta name="robots" content="index, follow">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 
     <!-- تحسين العرض على جميع الشاشات -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -30,7 +33,8 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://your-app-url.web.app/"> <!-- ضع رابط موقعك هنا -->
     <meta property="og:title" content="نظام بوفيه المشروبات الذكي - الإدارة السحابية">
-    <meta property="og:description" content="نظام احترافي لتتبع مبيعات البوفيه اليومية وإدارة تقارير الموظفين بكل سهولة.">
+    <meta property="og:description"
+        content="نظام احترافي لتتبع مبيعات البوفيه اليومية وإدارة تقارير الموظفين بكل سهولة.">
     <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/924/924514.png">
 
     <!-- وسوم Twitter Card -->
@@ -66,405 +70,603 @@
     </script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
 
-    :root {
-        --app-bg-default: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070');
-        --login-bg-default: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1887');
-        --glass-bg: rgba(255, 255, 255, 0.15); /* شفافية 85% */
-        --gold: #FFD700;
-    }
+        :root {
+            --app-bg-default: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070');
+            --login-bg-default: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1887');
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            /* شفافية 85% */
+            --gold: #FFD700;
+        }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-        font-family: 'Cairo', sans-serif;
-        background-image: var(--app-bg-default);
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        min-height: 100vh;
-        color: #fff;
-        transition: background 0.5s ease;
-    }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-image: var(--app-bg-default);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #fff;
+            transition: background 0.5s ease;
+        }
 
-    /* صفحة الدخول */
-    .login-page {
-        display: flex; justify-content: center; align-items: center;
-        min-height: 100vh; background-image: var(--login-bg-default);
-        background-size: cover; background-position: center;
-    }
+        /* صفحة الدخول */
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: var(--login-bg-default);
+            background-size: cover;
+            background-position: center;
+        }
 
-    .login-box {
-        background: var(--glass-bg);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        padding: 30px; border-radius: 25px;
-        width: 90%; max-width: 400px; text-align: center;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.2);
-        overflow: hidden;
-    }
-    
-    /* تصغير حجم خانة الكمية */
-.qty-input {
-    width: 60px !important; /* حجم صغير ومناسب */
-    height: 35px !important;
-    padding: 2px !important;
-    text-align: center;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.3);
-    background: white !important;
-    color: #333 !important;
-    font-weight: bold;
-}
+        .login-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
 
-/* تنسيق خانة الملاحظات داخل الجدول */
-.note-input {
-    width: 120px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid rgba(255,255,255,0.2);
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 12px;
-    font-family: 'Cairo';
-}
-.note-input::placeholder { color: rgba(255,255,255,0.5); }
-    .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    }
-    #deptListContainer div {
-        transition: 0.3s;
-    }
-    #deptListContainer div:hover {
-        background: rgba(255,255,255,0.2) !important;
-        transform: translateX(-5px);
-    }
+        /* تصغير حجم خانة الكمية */
+        .qty-input {
+            width: 60px !important;
+            /* حجم صغير ومناسب */
+            height: 35px !important;
+            padding: 2px !important;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: white !important;
+            color: #333 !important;
+            font-weight: bold;
+        }
 
-    .login-logo {
-        width: 100%; max-height: 180px;
-        object-fit: contain; margin-bottom: 20px; border-radius: 15px;
-    }
-/* 1. خلفية التطبيق وصفحة الدخول (تظهر كاملة وبجودة عالية) */
-body, .login-page {
-    background-size: 100% 100%; /* تمديد الصورة لتملأ الشاشة بالكامل بدون قص */
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed; /* تجعل الخلفية ثابتة مما يزيد من حدة وجودة الصورة */
-    image-rendering: -webkit-optimize-contrast; /* تحسين حدة الصور في المتصفحات */
-}
+        /* تنسيق خانة الملاحظات داخل الجدول */
+        .note-input {
+            width: 120px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 12px;
+            font-family: 'Cairo';
+        }
 
-/* 2. اللوجو (في صفحة الدخول وفي الهيدر) - يظهر كاملاً مهما كان مقاسه */
-.login-logo, .header-logo-img, #headerCustomIcon {
-    object-fit: contain !important; /* أهم خاصية: تمنع قص أي جزء من الصورة وتحافظ على أبعادها الأصلية */
-    image-rendering: auto;
-}
+        .note-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
 
-/* 3. أيقونات المشروبات في الجداول - تظهر كاملة وبدون تمطيط */
-.bev-icon {
-    width: 40px;
-    height: 40px;
-    object-fit: contain !important; /* تضمن ظهور أيقونة المشروب كاملة داخل المربع */
-    background: rgba(255, 255, 255, 0.05); /* خلفية خفيفة جداً لإبراز الأيقونة */
-    border-radius: 5px;
-}
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
 
-/* 4. الصورة عند تكبيرها (Image Viewer) */
-#fullImage {
-    max-width: 95%;
-    max-height: 90%;
-    object-fit: contain; /* تظهر الصورة الكبيرة كاملة عند الضغط عليها */
-    border: 2px solid #fff;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-}
-    .login-box input {
-        width: 100%; padding: 12px; margin: 10px 0;
-        border-radius: 12px; border: 1px solid rgba(255,255,255,0.3);
-        background: rgba(255,255,255,0.1) !important;
-        background-color: rgba(255, 255, 255, 0.15); /* هذا اللون الافتراضي */
-        color: #fff !important; font-weight: 600; outline: none;
-    }
+        #deptListContainer div {
+            transition: 0.3s;
+        }
 
-    /* الهيدر والقائمة الرئيسية */
-    .main-page { display: none; }
-    .header {
-        background: rgba(62, 39, 35, 0.85); color: var(--gold);
-        padding: 15px 25px; display: flex; justify-content: space-between;
-        align-items: center; backdrop-filter: blur(10px);
-        position: sticky; top: 0; z-index: 1000;
-    }
+        #deptListContainer div:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+            transform: translateX(-5px);
+        }
 
-    .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+        .login-logo {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
 
-    /* العناصر الزجاجية (Glassmorphism) */
-    /* الشفافية 85% لجميع العناصر الزجاجية */
-.history-section, .admin-panel, table, .card, .login-box {
-    background: rgba(255, 255, 255, 0.15) !important; /* شفافة بنسبة 85% */
-    backdrop-filter: blur(12px) !important; /* تأثير التغبيش الاحترافي */
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
+        /* 1. خلفية التطبيق وصفحة الدخول (تظهر كاملة وبجودة عالية) */
+        body,
+        .login-page {
+            background-size: 100% 100%;
+            /* تمديد الصورة لتملأ الشاشة بالكامل بدون قص */
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* تجعل الخلفية ثابتة مما يزيد من حدة وجودة الصورة */
+            image-rendering: -webkit-optimize-contrast;
+            /* تحسين حدة الصور في المتصفحات */
+        }
 
-    /* ضبط عرض خانة الملاحظات لتناسب الترتيب الجديد */
-    .note-input {
-        width: 100% !important;
-        max-width: 150px;
-        background: rgba(255,255,255,0.05) !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        color: white !important;
-        padding: 5px !important;
-        font-size: 12px !important;
-        border-radius: 5px;
-    }
+        /* 2. اللوجو (في صفحة الدخول وفي الهيدر) - يظهر كاملاً مهما كان مقاسه */
+        .login-logo,
+        .header-logo-img,
+        #headerCustomIcon {
+            object-fit: contain !important;
+            /* أهم خاصية: تمنع قص أي جزء من الصورة وتحافظ على أبعادها الأصلية */
+            image-rendering: auto;
+        }
 
-    /* ضمان عدم تداخل النصوص في الجداول الشفافة */
-    table td {
-        white-space: nowrap;
-    }
-    /* الكروت */
-    .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
-    .card { padding: 15px; text-align: center; color: var(--gold); font-weight: 800; }
+        /* 3. أيقونات المشروبات في الجداول - تظهر كاملة وبدون تمطيط */
+        .bev-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain !important;
+            /* تضمن ظهور أيقونة المشروب كاملة داخل المربع */
+            background: rgba(255, 255, 255, 0.05);
+            /* خلفية خفيفة جداً لإبراز الأيقونة */
+            border-radius: 5px;
+        }
 
-    /* الجداول */
-    table { width: 100%; border-collapse: collapse; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-    th { background: rgba(62, 39, 35, 0.8); color: var(--gold); padding: 12px; font-size: 14px; }
-    td { padding: 10px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; font-weight: 600; }
+        /* 4. الصورة عند تكبيرها (Image Viewer) */
+        #fullImage {
+            max-width: 95%;
+            max-height: 90%;
+            object-fit: contain;
+            /* تظهر الصورة الكبيرة كاملة عند الضغط عليها */
+            border: 2px solid #fff;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+        }
 
-    /* المدخلات */
-    .qty-input {
-        width: 55px; padding: 5px; text-align: center; border-radius: 5px;
-        border: none; background: #fff; color: #333; font-weight: bold;
-    }
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1) !important;
+            background-color: rgba(255, 255, 255, 0.15);
+            /* هذا اللون الافتراضي */
+            color: #fff !important;
+            font-weight: 600;
+            outline: none;
+        }
 
-    input[type="text"], input[type="number"], input[type="email"], input[type="password"], select {
-        width: 100%; padding: 10px; margin: 5px 0; border-radius: 8px;
-        border: 1px solid rgba(255,255,255,0.3); font-family: 'Cairo';
-    }
+        /* الهيدر والقائمة الرئيسية */
+        .main-page {
+            display: none;
+        }
 
-    /* تنسيق أيقونة المشروب */
-.bev-icon {
-    width: 35px;
-    height: 35px;
-    object-fit: cover; /* لضمان عدم تمطيط الصورة */
-    border-radius: 8px;
-    vertical-align: middle;
-    margin-left: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
+        .header {
+            background: rgba(62, 39, 35, 0.85);
+            color: var(--gold);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-/* تنسيق اسم المشروب بجانب الأيقونة */
-.bev-name-cell {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: right;
-}
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
 
-.bev-icon {
-    cursor: zoom-in;
-    transition: transform 0.2s;
-}
-.bev-icon:hover { transform: scale(1.1); }
+        /* العناصر الزجاجية (Glassmorphism) */
+        /* الشفافية 85% لجميع العناصر الزجاجية */
+        .history-section,
+        .admin-panel,
+        table,
+        .card,
+        .login-box {
+            background: rgba(255, 255, 255, 0.15) !important;
+            /* شفافة بنسبة 85% */
+            backdrop-filter: blur(12px) !important;
+            /* تأثير التغبيش الاحترافي */
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
 
-/* تنسيق خلية المشروب */
-.bev-name-cell {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: flex-start;
-}
+        /* ضبط عرض خانة الملاحظات لتناسب الترتيب الجديد */
+        .note-input {
+            width: 100% !important;
+            max-width: 150px;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            padding: 5px !important;
+            font-size: 12px !important;
+            border-radius: 5px;
+        }
 
-.bev-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 6px;
-    cursor: zoom-in;
-    object-fit: cover;
-    border: 1px solid rgba(255,215,0,0.3);
-}
+        /* ضمان عدم تداخل النصوص في الجداول الشفافة */
+        table td {
+            white-space: nowrap;
+        }
 
-/* نافذة عرض الصورة الكبيرة */
-#imageViewer {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-}
-#fullImage {
-    max-width: 90%;
-    max-height: 80%;
-    border-radius: 15px;
-    border: 3px solid white;
-}
+        /* الكروت */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
 
-/* تأثير الوميض حول إطار الشاشة */
-@keyframes borderFlash {
-    0% { box-shadow: inset 0 0 50px yellow, 0 0 50px yellow; border: 10px solid yellow; }
-    25% { box-shadow: inset 0 0 50px blue, 0 0 50px blue; border: 10px solid blue; }
-    50% { box-shadow: inset 0 0 50px green, 0 0 50px green; border: 10px solid green; }
-    75% { box-shadow: inset 0 0 50px cyan, 0 0 50px cyan; border: 10px solid cyan; }
-    100% { box-shadow: inset 0 0 50px yellow, 0 0 50px yellow; border: 10px solid yellow; }
-}
+        .card {
+            padding: 15px;
+            text-align: center;
+            color: var(--gold);
+            font-weight: 800;
+        }
 
-.screen-alert {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none; /* لكي لا يحجب الضغط على الأزرار */
-    z-index: 99999;
-    animation: borderFlash 0.5s linear infinite;
-    display: none; /* مخفي افتراضياً */
-}
+        /* الجداول */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-/* زر تفعيل الصوت (ضروري لسياسة المتصفح) */
-#audio-activator {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    z-index: 10001;
-    background: #FFD700;
-    color: #000;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 10px;
-    cursor: pointer;
-    border: none;
-    font-weight: bold;
-}
+        th {
+            background: rgba(62, 39, 35, 0.8);
+            color: var(--gold);
+            padding: 12px;
+            font-size: 14px;
+        }
 
-/* تنسيق رسالة التنبيه المنبثقة (Toast) */
-#toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10000;
-}
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-weight: 600;
+        }
 
-.toast {
-    background: rgba(62, 39, 35, 0.95);
-    color: #FFD700;
-    padding: 15px 25px;
-    border-radius: 10px;
-    border-right: 5px solid #4caf50;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: bold;
-    animation: slideIn 0.5s ease, fadeOut 0.5s 4.5s forwards;
-}
+        /* المدخلات */
+        .qty-input {
+            width: 55px;
+            padding: 5px;
+            text-align: center;
+            border-radius: 5px;
+            border: none;
+            background: #fff;
+            color: #333;
+            font-weight: bold;
+        }
 
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-family: 'Cairo';
+        }
 
-@keyframes fadeOut {
-    to { opacity: 0; transform: translateY(-20px); }
-}
+        /* تنسيق أيقونة المشروب */
+        .bev-icon {
+            width: 35px;
+            height: 35px;
+            object-fit: cover;
+            /* لضمان عدم تمطيط الصورة */
+            border-radius: 8px;
+            vertical-align: middle;
+            margin-left: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-    /* الأزرار */
-    .btn {
-        padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;
-        font-family: 'Cairo'; font-weight: bold; transition: 0.3s;
-    }
-    .btn-save { background: #2E7D32; color: white; width: 100%; font-size: 1.1rem; }
-    .btn:active { transform: scale(0.95); }
-    .btn-del { background: #c62828; color: white; }
+        /* تنسيق اسم المشروب بجانب الأيقونة */
+        .bev-name-cell {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: right;
+        }
 
-    /* حالات الطلب */
-    .status-pending { 
-        background: #ff5252; color: white; padding: 4px 10px; 
-        border-radius: 6px; font-size: 12px; animation: pulse 1.5s infinite; 
-    }
-    .status-completed { 
-        background: #4caf50; color: white; padding: 4px 10px; 
-        border-radius: 6px; font-size: 12px; font-weight: bold;
-    }
-    #appTitle {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+        .bev-icon {
+            cursor: zoom-in;
+            transition: transform 0.2s;
+        }
 
-.header-logo-box {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #FFD700;
-    background: #fff;
-}
+        .bev-icon:hover {
+            transform: scale(1.1);
+        }
 
-.header-logo-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        /* تنسيق خلية المشروب */
+        .bev-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-start;
+        }
 
-    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        .bev-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            cursor: zoom-in;
+            object-fit: cover;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
 
-    /* خاص بالبوفيه */
-    #exportFilterUser { 
-        background: white !important; color: #333 !important; 
-        padding: 8px; border-radius: 5px; width: 200px; font-weight: bold;
-    }
+        /* نافذة عرض الصورة الكبيرة */
+        #imageViewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
 
-    /* الموبايل */
-    @media (max-width: 600px) {
-        .header { flex-direction: column; gap: 10px; text-align: center; }
-        .summary-cards { grid-template-columns: 1fr 1fr; }
-        table { display: block; overflow-x: auto; white-space: nowrap; }
-    }
+        #fullImage {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 15px;
+            border: 3px solid white;
+        }
 
-    /* موظف البوفيه لا يرى أزرار الحذف والتعديل في بطاقات العهدة */
-#employeeOrderingView .btn-edit-stock, 
-#employeeOrderingView .btn-del-stock {
-    display: none !important;
-}
-    /* إخفاء الإذن في الشاشة العادية وإظهاره فقط عند الطباعة */
-@media print {
-    /* إخفاء كل شيء بلا استثناء */
-    body * {
-        display: none !important;
-    }
+        /* تأثير الوميض حول إطار الشاشة */
+        @keyframes borderFlash {
+            0% {
+                box-shadow: inset 0 0 50px yellow, 0 0 50px yellow;
+                border: 10px solid yellow;
+            }
 
-    /* إظهار إذن الصرف فقط ومحتوياته */
-    #printableRequisition, 
-    #printableRequisition * {
-        display: block !important;
-        visibility: visible !important;
-    }
+            25% {
+                box-shadow: inset 0 0 50px blue, 0 0 50px blue;
+                border: 10px solid blue;
+            }
 
-    /* ضبط وضع الإذن ليكون في أول الصفحة */
-    #printableRequisition {
-        position: fixed !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 10px !important;
-        background: white !important;
-        color: black !important;
-        z-index: 9999 !important;
-    }
+            50% {
+                box-shadow: inset 0 0 50px green, 0 0 50px green;
+                border: 10px solid green;
+            }
 
-    /* منع ظهور هوامش المتصفح الغريبة */
-    @page {
-        margin: 0.5cm;
-    }
-}
-</style>
+            75% {
+                box-shadow: inset 0 0 50px cyan, 0 0 50px cyan;
+                border: 10px solid cyan;
+            }
+
+            100% {
+                box-shadow: inset 0 0 50px yellow, 0 0 50px yellow;
+                border: 10px solid yellow;
+            }
+        }
+
+        .screen-alert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            /* لكي لا يحجب الضغط على الأزرار */
+            z-index: 99999;
+            animation: borderFlash 0.5s linear infinite;
+            display: none;
+            /* مخفي افتراضياً */
+        }
+
+        /* زر تفعيل الصوت (ضروري لسياسة المتصفح) */
+        #audio-activator {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 10001;
+            background: #FFD700;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 10px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+        }
+
+        /* تنسيق رسالة التنبيه المنبثقة (Toast) */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        .toast {
+            background: rgba(62, 39, 35, 0.95);
+            color: #FFD700;
+            padding: 15px 25px;
+            border-radius: 10px;
+            border-right: 5px solid #4caf50;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+            animation: slideIn 0.5s ease, fadeOut 0.5s 4.5s forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        /* الأزرار */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Cairo';
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-save {
+            background: #2E7D32;
+            color: white;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-del {
+            background: #c62828;
+            color: white;
+        }
+
+        /* حالات الطلب */
+        .status-pending {
+            background: #ff5252;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-completed {
+            background: #4caf50;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        #appTitle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo-box {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #FFD700;
+            background: #fff;
+        }
+
+        .header-logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* خاص بالبوفيه */
+        #exportFilterUser {
+            background: white !important;
+            color: #333 !important;
+            padding: 8px;
+            border-radius: 5px;
+            width: 200px;
+            font-weight: bold;
+        }
+
+        /* الموبايل */
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        /* موظف البوفيه لا يرى أزرار الحذف والتعديل في بطاقات العهدة */
+        #employeeOrderingView .btn-edit-stock,
+        #employeeOrderingView .btn-del-stock {
+            display: none !important;
+        }
+
+        /* إخفاء الإذن في الشاشة العادية وإظهاره فقط عند الطباعة */
+        @media print {
+
+            /* إخفاء كل شيء بلا استثناء */
+            body * {
+                display: none !important;
+            }
+
+            /* إظهار إذن الصرف فقط ومحتوياته */
+            #printableRequisition,
+            #printableRequisition * {
+                display: block !important;
+                visibility: visible !important;
+            }
+
+            /* ضبط وضع الإذن ليكون في أول الصفحة */
+            #printableRequisition {
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 10px !important;
+                background: white !important;
+                color: black !important;
+                z-index: 9999 !important;
+            }
+
+            /* منع ظهور هوامش المتصفح الغريبة */
+            @page {
+                margin: 0.5cm;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -472,7 +674,9 @@ body, .login-page {
 
     <div class="login-page" id="loginPage">
         <div class="login-box">
-            <img id="globalLogo" src="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o=" style="width:100px; margin-bottom:15px; object-fit: contain;">
+            <img id="globalLogo"
+                src="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o="
+                style="width:100px; margin-bottom:15px; object-fit: contain;">
             <h2 style="color: var(--gold); margin-bottom: 20px;">دخول نظام البوفيه</h2>
             <input type="email" id="email" placeholder="البريد الإلكتروني">
             <input type="password" id="password" placeholder="كلمة المرور">
@@ -482,29 +686,33 @@ body, .login-page {
     </div>
 
     <div class="main-page" id="mainPage">
-        <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 25px;">
-    
-    <!-- الجهة اليمنى: الصورة الدائرية والعنوان -->
-    <div id="appTitle" style="display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.2rem;">
-        <div style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: white; flex-shrink: 0;">
-            <img id="headerCustomIcon" 
-                 src="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o=" 
-                 style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="header"
+            style="display: flex; justify-content: space-between; align-items: center; padding: 10px 25px;">
+
+            <!-- الجهة اليمنى: الصورة الدائرية والعنوان -->
+            <div id="appTitle"
+                style="display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.2rem;">
+                <div
+                    style="width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: white; flex-shrink: 0;">
+                    <img id="headerCustomIcon"
+                        src="https://media.istockphoto.com/id/177749947/photo/glass-teacup-with-teabag.jpg?b=1&s=612x612&w=0&k=20&c=wQ6HmYh7QkKiQwOIgClojtkP_JRGccTQpEn1Y_YyL2o="
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <span>بوفيه تجهيز المشروبات - <span id="displayUser" style="color: var(--gold);"></span></span>
+            </div>
+
+            <!-- الجهة اليسرى: الأزرار مجمعة معاً لضمان عدم تحركها للمنتصف -->
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button class="btn" style="background:#FF9800; color:white;" onclick="toggleAdmin()">⚙️ الإدارة</button>
+                <button class="btn btn-del" onclick="handleLogout()">🚪 خروج</button>
+            </div>
+
         </div>
-        <span>بوفيه تجهيز المشروبات - <span id="displayUser" style="color: var(--gold);"></span></span>
-    </div>
-
-    <!-- الجهة اليسرى: الأزرار مجمعة معاً لضمان عدم تحركها للمنتصف -->
-    <div style="display: flex; gap: 10px; align-items: center;">
-        <button class="btn" style="background:#FF9800; color:white;" onclick="toggleAdmin()">⚙️ الإدارة</button>
-        <button class="btn btn-del" onclick="handleLogout()">🚪 خروج</button>
-    </div>
-
-</div>
 
         <div class="container">
             <div id="adminPanel" class="admin-panel" style="padding: 20px; display: none;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid var(--gold); padding-bottom:10px;">
+                <div
+                    style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid var(--gold); padding-bottom:10px;">
                     <h3 style="color:var(--gold)">🛠️ لوحة تحكم الإدارة</h3>
                     <button class="btn btn-del" onclick="closeAdminPanel()">✖ إغلاق</button>
                 </div>
@@ -516,7 +724,13 @@ body, .login-page {
                         <input type="text" id="rawUnit" placeholder="الوحدة">
                         <button class="btn btn-save" style="width:100%" onclick="addRawToCentral()">➕ توريد</button>
                         <table style="margin-top:10px; font-size:11px;">
-                            <thead><tr><th>الخامة</th><th>الرصيد</th><th>حذف</th></tr></thead>
+                            <thead>
+                                <tr>
+                                    <th>الخامة</th>
+                                    <th>الرصيد</th>
+                                    <th>حذف</th>
+                                </tr>
+                            </thead>
                             <tbody id="centralStockBody"> <!-- تأكد أن هذا الـ ID مكتوب هكذا تماماً -->
                                 <!-- البيانات ستظهر هنا -->
                             </tbody>
@@ -524,26 +738,28 @@ body, .login-page {
                     </div>
 
                     <!-- داخل admin-panel في قسم المظهر -->
-                    <div class="admin-card" style="padding:15px; border:1px solid rgba(255,255,255,0.1); border-radius:10px;">
+                    <div class="admin-card"
+                        style="padding:15px; border:1px solid rgba(255,255,255,0.1); border-radius:10px;">
                         <h4>🎨 تخصيص المظهر (Global)</h4>
-                        
+
                         <label style="font-size: 12px;">🖼️ رابط خلفية التطبيق الرئيسية:</label>
                         <input type="text" id="setBgApp" placeholder="https://رابط_الصورة.jpg">
-                        
+
                         <label style="font-size: 12px;">🔐 رابط خلفية صفحة الدخول:</label>
                         <input type="text" id="setBgLogin" placeholder="https://رابط_الصورة.jpg">
-                        
+
                         <label style="font-size: 12px;">🏷️ رابط لوجو التطبيق:</label>
                         <input type="text" id="setLogo" placeholder="https://رابط_اللوجو.png">
-                        
+
                         <label style="font-size: 11px;">🎨 لون خلفية خانات الكتابة (Login Inputs):</label>
-<input type="text" id="setLoginInputBg" placeholder="مثال: rgba(255,255,255,0.2)">
+                        <input type="text" id="setLoginInputBg" placeholder="مثال: rgba(255,255,255,0.2)">
 
-<label style="font-size: 11px;">🟢 لون زر الدخول (Login Button):</label>
-<input type="color" id="setLoginBtnColor" style="height:40px; padding:2px;">
+                        <label style="font-size: 11px;">🟢 لون زر الدخول (Login Button):</label>
+                        <input type="color" id="setLoginBtnColor" style="height:40px; padding:2px;">
 
-<!-- تعديل زر الحفظ ليشمل البيانات الجديدة -->
-<button class="btn btn-save" style="width:100%; margin-top:10px;" onclick="saveGlobalSettings()">💾 حفظ المظهر للجميع</button>
+                        <!-- تعديل زر الحفظ ليشمل البيانات الجديدة -->
+                        <button class="btn btn-save" style="width:100%; margin-top:10px;"
+                            onclick="saveGlobalSettings()">💾 حفظ المظهر للجميع</button>
                     </div>
 
                     <div>
@@ -554,48 +770,77 @@ body, .login-page {
                         <input type="text" id="bevIcon" placeholder="رابط أيقونة المشروب من الإنترنت">
                         <button class="btn btn-save" onclick="addGlobalBeverage()">➕ إضافة للمنيو</button>
                         <!-- تحت زرار "إضافة للمنيو" مباشرة -->
-                    <div style="margin-top:20px; max-height: 300px; overflow-y: auto;">
-                        <h4 style="color:var(--gold); border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 5px; margin-bottom: 10px;">📋 تعديل وحذف المشروبات الحالية</h4>
-                        <table style="font-size: 12px; background: rgba(0,0,0,0.2) !important;">
-                            <thead>
-                                <tr>
-                                    <th>أيقونة</th>
-                                    <th>المشروب</th>
-                                    <th>السعر</th>
-                                    <th>تعديل</th>
-                                    <th>حذف</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminDrinksManageBody">
-                                <!-- سيتم ملء البيانات هنا تلقائياً -->
-                            </tbody>
-                        </table>
-                    </div>
+                        <div style="margin-top:20px; max-height: 300px; overflow-y: auto;">
+                            <h4
+                                style="color:var(--gold); border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 5px; margin-bottom: 10px;">
+                                📋 تعديل وحذف المشروبات الحالية</h4>
+                            <table style="font-size: 12px; background: rgba(0,0,0,0.2) !important;">
+                                <thead>
+                                    <tr>
+                                        <th>أيقونة</th>
+                                        <th>المشروب</th>
+                                        <th>السعر</th>
+                                        <th>تعديل</th>
+                                        <th>حذف</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminDrinksManageBody">
+                                    <!-- سيتم ملء البيانات هنا تلقائياً -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="admin-card" style="padding:15px;">
                         <h4>👥 إضافة موظف</h4>
                         <input type="email" id="newUserEmail" placeholder="الايميل">
                         <input type="password" id="newUserPass" placeholder="الباسورد">
-                        <select id="userRole"><option value="employee">موظف</option><option value="buffet">بوفيه</option><option value="admin">ادمن</option></select>
+                        <select id="userRole">
+                            <option value="employee">موظف</option>
+                            <option value="buffet">بوفيه</option>
+                            <option value="admin">ادمن</option>
+                        </select>
                         <select id="userDept"></select>
-                        <button class="btn btn-save" style="background:#FF9800; width:100%" onclick="createNewUser()">➕ إنشاء</button>
+                        <button class="btn btn-save" style="background:#FF9800; width:100%" onclick="createNewUser()">➕
+                            إنشاء</button>
                     </div>
                     <div class="admin-card" style="padding:15px;">
                         <h4>🏢 الإدارات والأرشيف</h4>
                         <input type="text" id="deptName" placeholder="قسم جديد">
                         <button class="btn btn-save" onclick="addDepartment()">+ إضافة</button>
                         <div id="deptListContainer" style="margin-top:10px; font-size:12px;"></div>
-                        <button class="btn btn-save" style="margin-top:15px; background:#1565C0; width:100%" onclick="exportConsumptionReport()">📊 تصدير جرد الخامات</button>
+                        <button class="btn btn-save" style="margin-top:15px; background:#1565C0; width:100%"
+                            onclick="exportConsumptionReport()">📊 تصدير جرد الخامات</button>
                     </div>
                 </div>
                 <div class="admin-card" style="margin-top:20px; padding:15px;">
                     <h4>📋 عهدة البوفيهات الحالية</h4>
-                    <table style="font-size:12px;"><thead><tr><th>الموظف</th><th>الخامة</th><th>الرصيد</th><th>تعديل</th></tr></thead><tbody id="adminBuffetStockTable"></tbody></table>
+                    <table style="font-size:12px;">
+                        <thead>
+                            <tr>
+                                <th>الموظف</th>
+                                <th>الخامة</th>
+                                <th>الرصيد</th>
+                                <th>تعديل</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminBuffetStockTable"></tbody>
+                    </table>
                 </div>
                 <div class="admin-card" style="margin-top:20px; padding:15px;">
                     <h4>📜 أرشيف أذونات الصرف</h4>
-                    <table style="font-size:11px;"><thead><tr><th>رقم</th><th>الموظف</th><th>الخامة</th><th>الكمية</th><th>طباعة</th></tr></thead><tbody id="requisitionArchiveBody"></tbody></table>
+                    <table style="font-size:11px;">
+                        <thead>
+                            <tr>
+                                <th>رقم</th>
+                                <th>الموظف</th>
+                                <th>الخامة</th>
+                                <th>الكمية</th>
+                                <th>طباعة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requisitionArchiveBody"></tbody>
+                    </table>
                 </div>
             </div>
 
@@ -604,13 +849,26 @@ body, .login-page {
                 <h2 style="color:var(--gold)">📺 شاشة الطلبات الحية</h2>
                 <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
                     <select id="exportFilterUser" style="width:200px"></select>
-                    <button class="btn" style="background:#1565C0; color:white" onclick="exportToExcelFiltered()">📊 تقرير الموظف</button>
-                    <button class="btn btn-save" style="background:#2E7D32; width:auto" onclick="exportToExcelAll()">📊 تصدير كل الموظفين</button>
-                    <button class="btn" style="background:#6A1B9A; color:white" onclick="showRequisitionModal()">📝 طلب صرف خامات</button>
+                    <button class="btn" style="background:#1565C0; color:white" onclick="exportToExcelFiltered()">📊
+                        تقرير الموظف</button>
+                    <button class="btn btn-save" style="background:#2E7D32; width:auto" onclick="exportToExcelAll()">📊
+                        تصدير كل الموظفين</button>
+                    <button class="btn" style="background:#6A1B9A; color:white" onclick="showRequisitionModal()">📝 طلب
+                        صرف خامات</button>
                 </div>
                 <div id="buffetLocalStock" style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;"></div>
                 <table>
-                    <thead><tr><th>الموظف</th><th>الإدارة</th><th>الوقت</th><th>المشروب</th><th>الكمية</th><th>ملاحظة</th><th>التحكم</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>الموظف</th>
+                            <th>الإدارة</th>
+                            <th>الوقت</th>
+                            <th>المشروب</th>
+                            <th>الكمية</th>
+                            <th>ملاحظة</th>
+                            <th>التحكم</th>
+                        </tr>
+                    </thead>
                     <tbody id="buffetLiveOrders"></tbody>
                 </table>
             </div>
@@ -623,189 +881,233 @@ body, .login-page {
                     <div class="card" style="color:#4caf50">🎁 مجاني: <span id="freeRemain">2</span></div>
                 </div>
                 <table>
-                    <thead><tr><th>المشروب</th><th>السعر</th><th>الكمية</th><th>الإجمالي</th><th>الملاحظات</th><th>البون</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>المشروب</th>
+                            <th>السعر</th>
+                            <th>الكمية</th>
+                            <th>الإجمالي</th>
+                            <th>الملاحظات</th>
+                            <th>البون</th>
+                        </tr>
+                    </thead>
                     <tbody id="bevTableBody"></tbody>
                 </table>
-                <div style="display:flex; gap:10px;"><button class="btn btn-save" style="flex:2" onclick="processSale()">💾 إرسال الطلب</button><button class="btn" style="background:#1565C0; color:white; flex:1" onclick="exportUserHistoryExcel()">📊 تصدير سجلاتي</button></div>
-                <div class="history-section" style="margin-top:20px; padding:15px;"><h3 style="color:var(--gold)">📋 حالة طلباتي</h3><table><thead><tr><th>#</th><th>التاريخ</th><th>المشروب</th><th>المبلغ</th><th>الحالة</th><th>حذف</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+                <div style="display:flex; gap:10px;"><button class="btn btn-save" style="flex:2"
+                        onclick="processSale()">💾 إرسال الطلب</button><button class="btn"
+                        style="background:#1565C0; color:white; flex:1" onclick="exportUserHistoryExcel()">📊 تصدير
+                        سجلاتي</button></div>
+                <div class="history-section" style="margin-top:20px; padding:15px;">
+                    <h3 style="color:var(--gold)">📋 حالة طلباتي</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>التاريخ</th>
+                                <th>المشروب</th>
+                                <th>المبلغ</th>
+                                <th>الحالة</th>
+                                <th>حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
-            <!-- إذن صرف للطباعة -->
-            <div id="printableRequisition" style="display:none; direction:rtl; padding:30px; font-family:Arial; color:black; background:white; border:2px solid #000;">
-                <h2 style="text-align:center;">إذن صرف مواد خام</h2>
-                <p>التاريخ: <span id="pDate"></span> | رقم الإذن: <span id="pID"></span></p>
-                <p>الموظف: <span id="pUser"></span> | الإدارة: <span id="pDept"></span></p>
-                <table border="1" style="width:100%; border-collapse:collapse; margin:20px 0; text-align:center;">
-                    <thead><tr><th>الصنف</th><th>الكمية</th><th>الوحدة</th></tr></thead>
-                    <tbody><tr><td id="pItemName"></td><td id="pQty"></td><td id="pUnit"></td></tr></tbody>
-                </table>
-                <div style="margin-top:50px; display:flex; justify-content:space-between;"><span>توقيع المستلم: _______</span><span>رئيس القسم: _______</span><span>المخزن: _______</span></div>
-            </div>
+    <!-- إذن صرف للطباعة -->
+    <div id="printableRequisition"
+        style="display:none; direction:rtl; padding:30px; font-family:Arial; color:black; background:white; border:2px solid #000;">
+        <h2 style="text-align:center;">إذن صرف مواد خام</h2>
+        <p>التاريخ: <span id="pDate"></span> | رقم الإذن: <span id="pID"></span></p>
+        <p>الموظف: <span id="pUser"></span> | الإدارة: <span id="pDept"></span></p>
+        <table border="1" style="width:100%; border-collapse:collapse; margin:20px 0; text-align:center;">
+            <thead>
+                <tr>
+                    <th>الصنف</th>
+                    <th>الكمية</th>
+                    <th>الوحدة</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="pItemName"></td>
+                    <td id="pQty"></td>
+                    <td id="pUnit"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top:50px; display:flex; justify-content:space-between;"><span>توقيع المستلم:
+                _______</span><span>رئيس القسم: _______</span><span>المخزن: _______</span></div>
+    </div>
 
-                <!-- نافذة تكبير الصورة (Image Viewer) -->
-            <div id="imageViewer" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000; justify-content:center; align-items:center; cursor:pointer;" onclick="this.style.display='none'">
-                <img id="fullImage" src="" style="max-width:90%; max-height:80%; border:5px solid white; border-radius:15px; box-shadow:0 0 30px rgba(255,255,255,0.2);">
-                <p style="position:absolute; bottom:20px; color:white; font-family:'Cairo';">إضغط في أي مكان للإغلاق</p>
-            </div>
+    <!-- نافذة تكبير الصورة (Image Viewer) -->
+    <div id="imageViewer"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:5000; justify-content:center; align-items:center; cursor:pointer;"
+        onclick="this.style.display='none'">
+        <img id="fullImage" src=""
+            style="max-width:90%; max-height:80%; border:5px solid white; border-radius:15px; box-shadow:0 0 30px rgba(255,255,255,0.2);">
+        <p style="position:absolute; bottom:20px; color:white; font-family:'Cairo';">إضغط في أي مكان للإغلاق</p>
+    </div>
 
-            <div id="imageViewer" onclick="this.style.display='none'">
-                <img id="fullImage" src="">
-                <p style="color:white; margin-top:10px;">إضغط في أي مكان للإغلاق</p>
-            </div>
+    <div id="imageViewer" onclick="this.style.display='none'">
+        <img id="fullImage" src="">
+        <p style="color:white; margin-top:10px;">إضغط في أي مكان للإغلاق</p>
+    </div>
 
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, updateDoc, arrayUnion, deleteDoc, query, orderBy, where, collectionGroup, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, updateDoc, arrayUnion, deleteDoc, query, orderBy, where, collectionGroup, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCLUfSemgUEytbDeEzTb50AVZfBAH7r9OQ",
-        authDomain: "my-medil.firebaseapp.com",
-        projectId: "my-medil",
-        storageBucket: "my-medil.firebasestorage.app",
-        messagingSenderId: "424570340142",
-        appId: "1:424570340142:web:24f23331eb9fd3dfd470bf"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyCLUfSemgUEytbDeEzTb50AVZfBAH7r9OQ",
+            authDomain: "my-medil.firebaseapp.com",
+            projectId: "my-medil",
+            storageBucket: "my-medil.firebasestorage.app",
+            messagingSenderId: "424570340142",
+            appId: "1:424570340142:web:24f23331eb9fd3dfd470bf"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    // --- المتغيرات العالمية ---
-    let currentUser = null; 
-    let userRole = "employee"; 
-    let userDepartment = "عام";
-    let beverages = []; 
-    let historyData = []; 
-    let buffetOrdersData = []; 
-    let isAuthorizedAdmin = false;
+        // --- المتغيرات العالمية ---
+        let currentUser = null;
+        let userRole = "employee";
+        let userDepartment = "عام";
+        let beverages = [];
+        let historyData = [];
+        let buffetOrdersData = [];
+        let isAuthorizedAdmin = false;
 
-    const DRINK_RECIPES = {
-        "شاي": { "شاي": 1, "سكر": 2 },
-        "شاي بفتلة": { "شاي": 1, "سكر": 2 },
-        "قهوة": { "قهوة": 1, "سكر": 2 },
-        "نسكافيه": { "نسكافيه": 1, "سكر": 2 },
-        "كاكاو": { "كاكاو": 1, "سكر": 2, "لبن": 50 },
-        "يانسون": { "يانسون": 1, "سكر": 2 },
-        "كركريه": { "كركريه": 1, "سكر": 2 },
-        "شاي اخضر": { "شاي اخضر": 1, "سكر": 2 },
-        "قرفة": { "قرفة": 1, "سكر": 2 },
-        "زنجبيل": { "زنجبيل": 1, "سكر": 2 },
-        "عصير": { "عصير": 1 },
-        "قهوة باللبن": { "قهوة": 1, "سكر": 2, "لبن": 50 },
-        "شاي باللبن": { "شاي": 1, "سكر": 2, "لبن": 50 }
-    };
+        const DRINK_RECIPES = {
+            "شاي": { "شاي": 1, "سكر": 2 },
+            "شاي بفتلة": { "شاي": 1, "سكر": 2 },
+            "قهوة": { "قهوة": 1, "سكر": 2 },
+            "نسكافيه": { "نسكافيه": 1, "سكر": 2 },
+            "كاكاو": { "كاكاو": 1, "سكر": 2, "لبن": 50 },
+            "يانسون": { "يانسون": 1, "سكر": 2 },
+            "كركريه": { "كركريه": 1, "سكر": 2 },
+            "شاي اخضر": { "شاي اخضر": 1, "سكر": 2 },
+            "قرفة": { "قرفة": 1, "سكر": 2 },
+            "زنجبيل": { "زنجبيل": 1, "سكر": 2 },
+            "عصير": { "عصير": 1 },
+            "قهوة باللبن": { "قهوة": 1, "سكر": 2, "لبن": 50 },
+            "شاي باللبن": { "شاي": 1, "سكر": 2, "لبن": 50 }
+        };
 
-    // --- 1. المظهر العالمي (يعمل دائماً للكل) ---
-    function initializeGlobalTheme() {
-        onSnapshot(doc(db, "settings", "global_config"), (snapshot) => {
-            if (snapshot.exists()) {
-                const config = snapshot.data();
-                if (config.bg) document.body.style.backgroundImage = `url(${config.bg})`;
-                if (config.bgLogin) {
-                    const lp = document.getElementById('loginPage');
-                    if (lp) lp.style.backgroundImage = `url(${config.bgLogin})`;
+        // --- 1. المظهر العالمي (يعمل دائماً للكل) ---
+        function initializeGlobalTheme() {
+            onSnapshot(doc(db, "settings", "global_config"), (snapshot) => {
+                if (snapshot.exists()) {
+                    const config = snapshot.data();
+                    if (config.bg) document.body.style.backgroundImage = `url(${config.bg})`;
+                    if (config.bgLogin) {
+                        const lp = document.getElementById('loginPage');
+                        if (lp) lp.style.backgroundImage = `url(${config.bgLogin})`;
+                    }
+                    if (config.logo) {
+                        const lLogo = document.getElementById('globalLogo');
+                        const hLogo = document.getElementById('headerCustomIcon');
+                        if (lLogo) lLogo.src = config.logo;
+                        if (hLogo) hLogo.src = config.logo;
+                    }
+                    // تطبيق الألوان
+                    if (config.loginInputBg) {
+                        document.querySelectorAll('.login-box input').forEach(inp => inp.style.backgroundColor = config.loginInputBg);
+                    }
+                    if (config.loginBtnBg) {
+                        const btn = document.querySelector('#loginPage .btn-save');
+                        if (btn) btn.style.backgroundColor = config.loginBtnBg;
+                    }
                 }
-                if (config.logo) {
-                    const lLogo = document.getElementById('globalLogo');
-                    const hLogo = document.getElementById('headerCustomIcon');
-                    if (lLogo) lLogo.src = config.logo;
-                    if (hLogo) hLogo.src = config.logo;
+            });
+        }
+
+        // --- 2. نظام الدخول ---
+        window.handleLogin = async () => {
+            const e = document.getElementById('email').value.trim();
+            const p = document.getElementById('password').value.trim();
+            const err = document.getElementById('loginErr');
+            if (!e || !p) return alert("يرجى إدخال البيانات");
+            try {
+                await signInWithEmailAndPassword(auth, e, p);
+            } catch (error) {
+                err.innerText = "❌ خطأ: تأكد من البريد وكلمة المرور";
+                err.style.display = "block";
+            }
+        };
+
+        window.handleLogout = async () => {
+            if (confirm("تسجيل خروج؟")) { await signOut(auth); location.reload(); }
+        };
+
+        // --- 3. مراقب حالة المستخدم ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const meta = await getDoc(doc(db, "users_metadata", user.uid));
+                if (meta.exists()) {
+                    userRole = meta.data().role;
+                    userDepartment = meta.data().department;
                 }
-                // تطبيق الألوان
-                if (config.loginInputBg) {
-                    document.querySelectorAll('.login-box input').forEach(inp => inp.style.backgroundColor = config.loginInputBg);
+
+                document.getElementById('displayUser').innerText = user.email.split('@')[0];
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainPage').style.display = 'block';
+
+                const buffetView = document.getElementById('buffetDashboard');
+                const orderView = document.getElementById('employeeOrderingView');
+
+                // --- التحكم في الشاشات ---
+                if (userRole === "buffet") {
+                    // موظف البوفيه يرى الطلبات الحية فقط ولا يرى قائمة المشروبات للطلب
+                    buffetView.style.display = 'block';
+                    orderView.style.display = 'none';
+                    listenToAllOrdersToday();
+                    listenToBuffetStock();
                 }
-                if (config.loginBtnBg) {
-                    const btn = document.querySelector('#loginPage .btn-save');
-                    if (btn) btn.style.backgroundColor = config.loginBtnBg;
+                else if (userRole === "admin") {
+                    // الأدمن يرى كل شيء
+                    buffetView.style.display = 'block';
+                    orderView.style.display = 'block';
+                    listenToAllOrdersToday();
+                    listenToUserHistory();
+                    listenToCentralInventory();
+                    listenToAllBuffetStocks();
+                    listenToRequisitionArchive();
                 }
+                else {
+                    // الموظف العادي يرى قائمة الطلب وسجله فقط
+                    buffetView.style.display = 'none';
+                    orderView.style.display = 'block';
+                    listenToUserHistory();
+                    listenToBeverages(); // الموظف هو من يحتاج تحميل المنيو
+                }
+                loadDepartments();
+            } else {
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('mainPage').style.display = 'none';
             }
         });
-    }
 
-    // --- 2. نظام الدخول ---
-    window.handleLogin = async () => {
-        const e = document.getElementById('email').value.trim();
-        const p = document.getElementById('password').value.trim();
-        const err = document.getElementById('loginErr');
-        if (!e || !p) return alert("يرجى إدخال البيانات");
-        try {
-            await signInWithEmailAndPassword(auth, e, p);
-        } catch (error) {
-            err.innerText = "❌ خطأ: تأكد من البريد وكلمة المرور";
-            err.style.display = "block";
+        // --- 4. جلب المشروبات ---
+        function listenToBeverages() {
+            onSnapshot(doc(db, "beverages", "global_list"), (snapshot) => {
+                beverages = snapshot.exists() ? (snapshot.data().list || []) : [];
+                window.renderTable();
+                updateAdminDrinksTable();
+            });
         }
-    };
 
-    window.handleLogout = async () => {
-        if (confirm("تسجيل خروج؟")) { await signOut(auth); location.reload(); }
-    };
-
-    // --- 3. مراقب حالة المستخدم ---
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        currentUser = user;
-        const meta = await getDoc(doc(db, "users_metadata", user.uid));
-        if (meta.exists()) { 
-            userRole = meta.data().role; 
-            userDepartment = meta.data().department; 
-        }
-        
-        document.getElementById('displayUser').innerText = user.email.split('@')[0];
-        document.getElementById('loginPage').style.display = 'none';
-        document.getElementById('mainPage').style.display = 'block';
-
-        const buffetView = document.getElementById('buffetDashboard');
-        const orderView = document.getElementById('employeeOrderingView');
-
-        // --- التحكم في الشاشات ---
-        if (userRole === "buffet") { 
-            // موظف البوفيه يرى الطلبات الحية فقط ولا يرى قائمة المشروبات للطلب
-            buffetView.style.display = 'block'; 
-            orderView.style.display = 'none'; 
-            listenToAllOrdersToday(); 
-            listenToBuffetStock();
-        } 
-        else if (userRole === "admin") {
-            // الأدمن يرى كل شيء
-            buffetView.style.display = 'block';
-            orderView.style.display = 'block';
-            listenToAllOrdersToday();
-            listenToUserHistory();
-            listenToCentralInventory();
-            listenToAllBuffetStocks();
-            listenToRequisitionArchive();
-        } 
-        else {
-            // الموظف العادي يرى قائمة الطلب وسجله فقط
-            buffetView.style.display = 'none';
-            orderView.style.display = 'block';
-            listenToUserHistory();
-            listenToBeverages(); // الموظف هو من يحتاج تحميل المنيو
-        }
-        loadDepartments();
-    } else {
-        document.getElementById('loginPage').style.display = 'flex';
-        document.getElementById('mainPage').style.display = 'none';
-    }
-});
-
-// --- 4. جلب المشروبات ---
-    function listenToBeverages() {
-        onSnapshot(doc(db, "beverages", "global_list"), (snapshot) => {
-            beverages = snapshot.exists() ? (snapshot.data().list || []) : [];
-            window.renderTable();
-            updateAdminDrinksTable();
-        });
-    }
-
-    window.renderTable = () => {
-        const tbody = document.getElementById('bevTableBody');
-        if (!tbody) return;
-        tbody.innerHTML = beverages.map((bev, i) => `
+        window.renderTable = () => {
+            const tbody = document.getElementById('bevTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = beverages.map((bev, i) => `
             <tr>
                 <td class="bev-name-cell">
                     <img src="${bev.icon || 'https://cdn-icons-png.flaticon.com/512/924/924514.png'}" class="bev-icon" onclick="window.viewImage('${bev.icon}')">
@@ -817,142 +1119,267 @@ body, .login-page {
                 <td><input type="text" class="note-input" id="note_${i}" placeholder="سكر.."></td>
                 <td id="status_note_${i}">-</td>
             </tr>`).join('');
-    };
+        };
+        // --- دالة التنسيق الموحد للإكسل (الإبداع المحاسبي) ---
+        window.generateExcelLayout = (ordersArray) => {
+            const data = [
+                ["نظام بوفيه المشروبات الذكي ☕"],
+                ["تاريخ التقرير:", new Date().toLocaleDateString('ar-EG')],
+                [],
+                ["#", "الموظف", "التاريخ", "الوقت", "المشروب", "الكمية", "السعر الأصلي", "المدفوع فعلياً", "البون", "المجانية"]
+            ];
 
-    // --- 5. الحسابات والطلبات ---
-    window.calculateUI = () => {
-        let freeL = getRemainingFreeToday();
-        if (isNaN(freeL)) freeL = 2;
-        beverages.forEach((bev, i) => {
-            const qty = Number(document.getElementById(`qty_${i}`).value) || 0;
-            let freeIn = (bev.price == 1.25 && freeL > 0 && qty > 0) ? Math.min(qty, freeL) : 0;
-            freeL -= freeIn;
-            document.getElementById(`line_${i}`).innerText = ((qty - freeIn) * bev.price).toFixed(2);
-            const statusCell = document.getElementById(`status_note_${i}`);
-            if (statusCell) statusCell.innerHTML = freeIn > 0 ? `<span style="color:#4caf50;">🎁 ${freeIn} مجاني</span>` : "-";
-        });
-        document.getElementById('freeRemain').innerText = freeL;
-    };
+            let totalOriginal = 0;
+            let totalPaid = 0;
+            let bonAcc = 0;
+            let counter = 1;
 
-    function getRemainingFreeToday() {
-        const today = new Date().toLocaleDateString('ar-EG');
-        let used = 0;
-        historyData.forEach(s => {
-            if (s.timestamp?.toDate && s.timestamp.toDate().toLocaleDateString('ar-EG') === today) {
-                s.items.forEach(i => { if (i.isFree) used += Number(i.freeQty || 0); });
-            }
-        });
-        return Math.max(0, 2 - used);
-    }
+            // ترتيب المشروبات زمنياً
+            const sorted = [...ordersArray].sort((a, b) => a.timestamp - b.timestamp);
 
-    window.processSale = async () => {
-        let freeL = getRemainingFreeToday();
-        const itemsToSave = [];
-        beverages.forEach((bev, i) => {
-            const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
-            const note = document.getElementById(`note_${i}`).value;
-            if (qty > 0) {
-                let freeIn = (bev.price == 1.25 && freeL > 0) ? Math.min(qty, freeL) : 0;
+            sorted.forEach(order => {
+                const d = order.timestamp.toDate();
+                order.items.forEach(item => {
+                    const price = Number(item.price) || 0;
+                    const qty = Number(item.qty) || 0;
+                    const paid = Number(item.paidAmount) || 0;
+                    const originalLine = price * qty;
+
+                    totalOriginal += originalLine;
+                    totalPaid += paid;
+                    bonAcc += paid;
+
+                    data.push([
+                        counter++,
+                        order.userName,
+                        d.toLocaleDateString('ar-EG'),
+                        d.toLocaleTimeString('ar-EG'),
+                        item.name,
+                        qty,
+                        originalLine.toFixed(2),
+                        paid.toFixed(2),
+                        Math.floor(bonAcc / 50) + 1,
+                        item.isFree ? "نعم" : "لا"
+                    ]);
+                });
+            });
+
+            data.push([]);
+            data.push(["", "", "", "إجمالي الحسابات (ج.م):", "", "", totalOriginal.toFixed(2), totalPaid.toFixed(2), "", ""]);
+            data.push(["", "", "", "إجمالي المشروبات المجانية:", "", "", "", (totalOriginal - totalPaid).toFixed(2) + " ج.م", "", ""]);
+
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 9 } }]; // دمج العنوان
+            ws['!cols'] = [{ wch: 6 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 20 }, { wch: 8 }, { wch: 15 }, { wch: 15 }, { wch: 10 }, { wch: 12 }];
+            return ws;
+        };
+
+        // ربط أزرار البوفيه
+        window.exportToExcelFiltered = () => {
+            const sel = document.getElementById('exportFilterUser').value;
+            const filtered = (sel === 'all') ? buffetOrdersData : buffetOrdersData.filter(o => o.userName === sel);
+            if (!filtered.length) return alert("لا توجد بيانات");
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, window.generateExcelLayout(filtered), "Report");
+            XLSX.writeFile(wb, `Report_Buffet_${sel}.xlsx`);
+        };
+
+        window.exportToExcelAll = () => {
+            document.getElementById('exportFilterUser').value = 'all';
+            window.exportToExcelFiltered();
+        };
+
+        // ربط زر الموظف العادي
+        window.exportUserHistoryExcel = () => {
+            if (!historyData.length) return alert("سجلك فارغ");
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, window.generateExcelLayout(historyData), "MyHistory");
+            XLSX.writeFile(wb, "MyRecords.xlsx");
+        };
+
+        window.showRequisitionModal = async () => {
+            const snap = await getDocs(collection(db, "central_inventory"));
+            const select = document.getElementById('reqItemSelect');
+            if (snap.empty) return alert("المخزن فارغ");
+            select.innerHTML = snap.docs.map(d => `<option value="${d.id}" data-qty="${d.data().qty}">${d.data().name} (${d.data().qty})</option>`).join('');
+            document.getElementById('requisitionModal').style.display = 'flex';
+        };
+
+        window.processRequisition = async () => {
+            const select = document.getElementById('reqItemSelect');
+            const qtyInp = document.getElementById('reqQtyInput');
+            const itemID = select.value;
+            const reqQty = Number(qtyInp.value);
+            const avail = Number(select.selectedOptions[0].getAttribute('data-qty'));
+
+            if (!reqQty || reqQty > avail) return alert("الكمية غير متاحة");
+
+            try {
+                // 1. تحديث السحاب
+                await updateDoc(doc(db, "central_inventory", itemID), { qty: avail - reqQty });
+                const bRef = doc(db, "buffet_stock", currentUser.uid);
+                const bSnap = await getDoc(bRef);
+                let mats = bSnap.exists() ? bSnap.data().materials : {};
+                mats[itemID] = (Number(mats[itemID]) || 0) + reqQty;
+                await setDoc(bRef, { materials: mats, userId: currentUser.uid, userName: currentUser.email.split('@')[0] }, { merge: true });
+
+                // 2. كتابة بيانات الإذن للطباعة
+                document.getElementById('pDate').innerText = new Date().toLocaleDateString('ar-EG');
+                document.getElementById('pID').innerText = Math.floor(1000 + Math.random() * 9000);
+                document.getElementById('pUser').innerText = currentUser.email.split('@')[0];
+                document.getElementById('pDept').innerText = userDepartment;
+                document.getElementById('pItemName').innerText = itemID;
+                document.getElementById('pQty').innerText = reqQty;
+
+                // 3. تنفيذ الطباعة والاختفاء
+                window.closeReqModal();
+                const printArea = document.getElementById('printableRequisition');
+                printArea.style.display = 'block'; // يظهر فقط للطباعة
+
+                setTimeout(() => {
+                    window.print();
+                    printArea.style.display = 'none'; // يختفي فوراً بعد الطباعة
+                    alert("✅ تم الحفظ والطباعة بنجاح");
+                }, 500);
+            } catch (e) { alert(e.message); }
+        };
+
+        window.closeReqModal = () => document.getElementById('requisitionModal').style.display = 'none';
+
+        // --- 5. الحسابات والطلبات ---
+        window.calculateUI = () => {
+            let freeL = getRemainingFreeToday();
+            if (isNaN(freeL)) freeL = 2;
+            beverages.forEach((bev, i) => {
+                const qty = Number(document.getElementById(`qty_${i}`).value) || 0;
+                let freeIn = (bev.price == 1.25 && freeL > 0 && qty > 0) ? Math.min(qty, freeL) : 0;
                 freeL -= freeIn;
-                itemsToSave.push({ name: bev.name, qty, price: bev.price, paidAmount: (qty - freeIn) * bev.price, isFree: freeIn > 0, freeQty: freeIn, note, icon: bev.icon });
-            }
-        });
-        if (!itemsToSave.length) return alert("أدخل مشروبات");
-        for (const item of itemsToSave) {
-            await addDoc(collection(db, "all_orders"), { items: [item], total: item.paidAmount, timestamp: new Date(), userId: currentUser.uid, userName: currentUser.email.split('@')[0], userDept: userDepartment, status: "pending" });
-        }
-        alert("✅ تم إرسال الطلب"); window.renderTable();
-    };
+                document.getElementById(`line_${i}`).innerText = ((qty - freeIn) * bev.price).toFixed(2);
+                const statusCell = document.getElementById(`status_note_${i}`);
+                if (statusCell) statusCell.innerHTML = freeIn > 0 ? `<span style="color:#4caf50;">🎁 ${freeIn} مجاني</span>` : "-";
+            });
+            document.getElementById('freeRemain').innerText = freeL;
+        };
 
-    // --- 6. دوال العرض والطباعة (الأرشيف والبوفيه) ---
-  // --- 1. إعدادات التنبيهات العالمية (توضع خارج الدالة لضمان عملها المستمر) ---
-const notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-let isInitialLoad = true; // لمنع التنبيه للطلبات القديمة عند فتح الصفحة
-
-// دالة إظهار التنبيه (صوت + وميض + رسالة)
-window.showNotification = (userName, drinkName) => {
-    // تشغيل الصوت
-    notificationSound.currentTime = 0;
-    notificationSound.play().catch(e => console.log("الصوت يحتاج تفاعل مع الصفحة أولاً"));
-
-    // تفعيل الوميض الملون حول الشاشة
-    let alertDiv = document.getElementById('order-flash-overlay');
-    if (!alertDiv) {
-        alertDiv = document.createElement('div');
-        alertDiv.id = 'order-flash-overlay';
-        alertDiv.className = 'screen-alert';
-        document.body.appendChild(alertDiv);
-    }
-    alertDiv.style.display = 'block';
-    setTimeout(() => { alertDiv.style.display = 'none'; }, 5000); // الوميض لمدة 5 ثوانٍ
-
-    // إظهار رسالة منبثقة (Toast)
-    const container = document.getElementById('toast-container') || (() => {
-        const div = document.createElement('div'); div.id = 'toast-container';
-        document.body.appendChild(div); return div;
-    })();
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `🔔 طلب جديد من ${userName}: ${drinkName}`;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 6000);
-
-    // إشعار المتصفح الرسمي
-    if (Notification.permission === "granted") {
-        new Notification("☕ طلب جديد وصل!", { body: `الموظف ${userName} طلب ${drinkName}` });
-    }
-};
-
-// --- 2. دالة مراقبة البوفيه المدمجة ---
-function listenToAllOrdersToday() {
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    const q = query(collection(db, "all_orders"), where("timestamp", ">=", today));
-
-    onSnapshot(q, (snap) => {
-        const tbody = document.getElementById('buffetLiveOrders');
-        const filter = document.getElementById('exportFilterUser');
-        if (!tbody) return;
-
-        // --- أ: جزء اكتشاف الطلبات الجديدة لإطلاق الإشعار ---
-        snap.docChanges().forEach((change) => {
-            if (change.type === "added" && !isInitialLoad) {
-                const newOrder = change.doc.data();
-                // تنبيه موظف البوفيه فقط لو الطلب من إدارته أو لو كان أدمن
-                if (userRole === "admin" || newOrder.userDept === userDepartment) {
-                    const drinks = newOrder.items.map(i => i.name).join(', ');
-                    window.showNotification(newOrder.userName, drinks);
+        function getRemainingFreeToday() {
+            const today = new Date().toLocaleDateString('ar-EG');
+            let used = 0;
+            historyData.forEach(s => {
+                if (s.timestamp?.toDate && s.timestamp.toDate().toLocaleDateString('ar-EG') === today) {
+                    s.items.forEach(i => { if (i.isFree) used += Number(i.freeQty || 0); });
                 }
+            });
+            return Math.max(0, 2 - used);
+        }
+
+        window.processSale = async () => {
+            let freeL = getRemainingFreeToday();
+            const itemsToSave = [];
+            beverages.forEach((bev, i) => {
+                const qty = parseInt(document.getElementById(`qty_${i}`).value) || 0;
+                const note = document.getElementById(`note_${i}`).value;
+                if (qty > 0) {
+                    let freeIn = (bev.price == 1.25 && freeL > 0) ? Math.min(qty, freeL) : 0;
+                    freeL -= freeIn;
+                    itemsToSave.push({ name: bev.name, qty, price: bev.price, paidAmount: (qty - freeIn) * bev.price, isFree: freeIn > 0, freeQty: freeIn, note, icon: bev.icon });
+                }
+            });
+            if (!itemsToSave.length) return alert("أدخل مشروبات");
+            for (const item of itemsToSave) {
+                await addDoc(collection(db, "all_orders"), { items: [item], total: item.paidAmount, timestamp: new Date(), userId: currentUser.uid, userName: currentUser.email.split('@')[0], userDept: userDepartment, status: "pending" });
             }
-        });
-        isInitialLoad = false; // تفعيل الإشعارات للطلبات القادمة فقط
+            alert("✅ تم إرسال الطلب"); window.renderTable();
+        };
 
-        // --- ب: جزء رسم الجدول (كودك الأصلي) ---
-        buffetOrdersData = []; 
-        const usersSet = new Set(); 
-        tbody.innerHTML = '';
-        let rows = [];
+        // --- 6. دوال العرض والطباعة (الأرشيف والبوفيه) ---
+        // --- 1. إعدادات التنبيهات العالمية (توضع خارج الدالة لضمان عملها المستمر) ---
+        const notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+        let isInitialLoad = true; // لمنع التنبيه للطلبات القديمة عند فتح الصفحة
 
-        snap.forEach(docSnap => {
-            const data = docSnap.data();
-            data.id = docSnap.id;
-            buffetOrdersData.push(data);
+        // دالة إظهار التنبيه (صوت + وميض + رسالة)
+        window.showNotification = (userName, drinkName) => {
+            // تشغيل الصوت
+            notificationSound.currentTime = 0;
+            notificationSound.play().catch(e => console.log("الصوت يحتاج تفاعل مع الصفحة أولاً"));
 
-            // تصفية: موظف البوفيه يرى طلبات إدارته فقط
-            if (userRole === "admin" || data.userDept === userDepartment) {
-                if (data.userName) usersSet.add(data.userName);
+            // تفعيل الوميض الملون حول الشاشة
+            let alertDiv = document.getElementById('order-flash-overlay');
+            if (!alertDiv) {
+                alertDiv = document.createElement('div');
+                alertDiv.id = 'order-flash-overlay';
+                alertDiv.className = 'screen-alert';
+                document.body.appendChild(alertDiv);
+            }
+            alertDiv.style.display = 'block';
+            setTimeout(() => { alertDiv.style.display = 'none'; }, 5000); // الوميض لمدة 5 ثوانٍ
 
-                data.items.forEach(item => {
-                    const isP = data.status === "pending";
-                    const action = isP ? 
-                        `<button class="btn" style="background:#4caf50; font-size:10px" onclick="window.finishOrder('${data.id}')">✅ تجهيز</button>` : 
-                        `<span style="color:#4caf50; font-weight:bold;">✔️ جاهز</span>`;
-                    
-                    const timeStr = data.timestamp ? data.timestamp.toDate().toLocaleTimeString('ar-EG') : '';
-                    const iconUrl = item.icon || 'https://cdn-icons-png.flaticon.com/512/924/924514.png';
+            // إظهار رسالة منبثقة (Toast)
+            const container = document.getElementById('toast-container') || (() => {
+                const div = document.createElement('div'); div.id = 'toast-container';
+                document.body.appendChild(div); return div;
+            })();
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `🔔 طلب جديد من ${userName}: ${drinkName}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 6000);
 
-                    rows.push({ 
-                        time: data.timestamp.toDate(), 
-                        html: `<tr style="${isP ? 'border-right:5px solid red' : 'opacity:0.6'}">
+            // إشعار المتصفح الرسمي
+            if (Notification.permission === "granted") {
+                new Notification("☕ طلب جديد وصل!", { body: `الموظف ${userName} طلب ${drinkName}` });
+            }
+        };
+
+        // --- 2. دالة مراقبة البوفيه المدمجة ---
+        function listenToAllOrdersToday() {
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            const q = query(collection(db, "all_orders"), where("timestamp", ">=", today));
+
+            onSnapshot(q, (snap) => {
+                const tbody = document.getElementById('buffetLiveOrders');
+                const filter = document.getElementById('exportFilterUser');
+                if (!tbody) return;
+
+                // --- أ: جزء اكتشاف الطلبات الجديدة لإطلاق الإشعار ---
+                snap.docChanges().forEach((change) => {
+                    if (change.type === "added" && !isInitialLoad) {
+                        const newOrder = change.doc.data();
+                        // تنبيه موظف البوفيه فقط لو الطلب من إدارته أو لو كان أدمن
+                        if (userRole === "admin" || newOrder.userDept === userDepartment) {
+                            const drinks = newOrder.items.map(i => i.name).join(', ');
+                            window.showNotification(newOrder.userName, drinks);
+                        }
+                    }
+                });
+                isInitialLoad = false; // تفعيل الإشعارات للطلبات القادمة فقط
+
+                // --- ب: جزء رسم الجدول (كودك الأصلي) ---
+                buffetOrdersData = [];
+                const usersSet = new Set();
+                tbody.innerHTML = '';
+                let rows = [];
+
+                snap.forEach(docSnap => {
+                    const data = docSnap.data();
+                    data.id = docSnap.id;
+                    buffetOrdersData.push(data);
+
+                    // تصفية: موظف البوفيه يرى طلبات إدارته فقط
+                    if (userRole === "admin" || data.userDept === userDepartment) {
+                        if (data.userName) usersSet.add(data.userName);
+
+                        data.items.forEach(item => {
+                            const isP = data.status === "pending";
+                            const action = isP ?
+                                `<button class="btn" style="background:#4caf50; font-size:10px" onclick="window.finishOrder('${data.id}')">✅ تجهيز</button>` :
+                                `<span style="color:#4caf50; font-weight:bold;">✔️ جاهز</span>`;
+
+                            const timeStr = data.timestamp ? data.timestamp.toDate().toLocaleTimeString('ar-EG') : '';
+                            const iconUrl = item.icon || 'https://cdn-icons-png.flaticon.com/512/924/924514.png';
+
+                            rows.push({
+                                time: data.timestamp.toDate(),
+                                html: `<tr style="${isP ? 'border-right:5px solid red' : 'opacity:0.6'}">
                             <td>${data.userName}</td>
                             <td>${data.userDept}</td>
                             <td>${timeStr}</td>
@@ -963,128 +1390,129 @@ function listenToAllOrdersToday() {
                             <td>${item.qty}</td>
                             <td>${item.note || '-'}</td>
                             <td>${action}</td>
-                        </tr>` 
+                        </tr>`
+                            });
+                        });
+                    }
+                });
+
+                // ترتيب الطلبات (الأحدث أولاً) وعرضها في الجدول
+                tbody.innerHTML = rows.sort((a, b) => b.time - a.time).map(r => r.html).join('');
+
+                // تحديث قائمة الموظفين في الفلتر
+                if (filter) {
+                    filter.innerHTML = '<option value="all">كل الموظفين</option>' +
+                        Array.from(usersSet).map(u => `<option value="${u}">${u}</option>`).join('');
+                }
+            });
+        }
+
+        window.finishOrder = async (docId) => {
+            const orderRef = doc(db, "all_orders", docId);
+            const orderSnap = await getDoc(orderRef);
+            const bRef = doc(db, "buffet_stock", currentUser.uid);
+            const bSnap = await getDoc(bRef);
+            if (bSnap.exists()) {
+                let mats = bSnap.data().materials;
+                orderSnap.data().items.forEach(item => {
+                    const rec = DRINK_RECIPES[item.name];
+                    if (rec) { for (const ing in rec) { if (mats[ing]) mats[ing] -= (rec[ing] * item.qty); } }
+                });
+                await updateDoc(bRef, { materials: mats });
+            }
+            await updateDoc(orderRef, { status: "completed" });
+        };
+
+        function listenToUserHistory() {
+            onSnapshot(query(collection(db, "all_orders"), where("userId", "==", currentUser.uid)), (snap) => {
+                const tbody = document.getElementById('historyBody'); if (!tbody) return;
+                historyData = []; let rows = [];
+                snap.forEach(d => { historyData.push({ id: d.id, ...d.data() }); });
+                historyData.sort((a, b) => b.timestamp - a.timestamp).forEach((data, idx) => {
+                    data.items.forEach(item => {
+                        const status = data.status === "completed" ? '<span class="status-completed">✔️ جاهز</span>' : '<span class="status-pending">⏳ تحضير</span>';
+                        rows.push(`<tr><td>${historyData.length - idx}</td><td>${data.timestamp.toDate().toLocaleDateString('ar-EG')}</td><td class="bev-name-cell"><img src="${item.icon || ''}" class="bev-icon" onclick="window.viewImage('${item.icon}')"><span>${item.name}</span></td><td>${item.paidAmount.toFixed(2)}</td><td>${status}</td><td><button class="btn btn-del" onclick="window.deleteSale('${data.id}')">🗑️</button></td></tr>`);
                     });
                 });
-            }
-        });
-
-        // ترتيب الطلبات (الأحدث أولاً) وعرضها في الجدول
-        tbody.innerHTML = rows.sort((a, b) => b.time - a.time).map(r => r.html).join('');
-        
-        // تحديث قائمة الموظفين في الفلتر
-        if (filter) {
-            filter.innerHTML = '<option value="all">كل الموظفين</option>' + 
-                Array.from(usersSet).map(u => `<option value="${u}">${u}</option>`).join('');
-        }
-    });
-}
-
-window.finishOrder = async (docId) => {
-        const orderRef = doc(db, "all_orders", docId);
-        const orderSnap = await getDoc(orderRef);
-        const bRef = doc(db, "buffet_stock", currentUser.uid);
-        const bSnap = await getDoc(bRef);
-        if (bSnap.exists()) {
-            let mats = bSnap.data().materials;
-            orderSnap.data().items.forEach(item => {
-                const rec = DRINK_RECIPES[item.name];
-                if (rec) { for (const ing in rec) { if (mats[ing]) mats[ing] -= (rec[ing] * item.qty); } }
+                tbody.innerHTML = rows.join('');
+                document.getElementById('totalSales').innerText = historyData.reduce((a, b) => a + b.total, 0).toFixed(2);
             });
-            await updateDoc(bRef, { materials: mats });
         }
-        await updateDoc(orderRef, { status: "completed" });
-    };
 
-    function listenToUserHistory() {
-        onSnapshot(query(collection(db, "all_orders"), where("userId", "==", currentUser.uid)), (snap) => {
-            const tbody = document.getElementById('historyBody'); if (!tbody) return;
-            historyData = []; let rows = [];
-            snap.forEach(d => { historyData.push({ id: d.id, ...d.data() }); });
-            historyData.sort((a, b) => b.timestamp - a.timestamp).forEach((data, idx) => {
-                data.items.forEach(item => {
-                    const status = data.status === "completed" ? '<span class="status-completed">✔️ جاهز</span>' : '<span class="status-pending">⏳ تحضير</span>';
-                    rows.push(`<tr><td>${historyData.length - idx}</td><td>${data.timestamp.toDate().toLocaleDateString('ar-EG')}</td><td class="bev-name-cell"><img src="${item.icon || ''}" class="bev-icon" onclick="window.viewImage('${item.icon}')"><span>${item.name}</span></td><td>${item.paidAmount.toFixed(2)}</td><td>${status}</td><td><button class="btn btn-del" onclick="window.deleteSale('${data.id}')">🗑️</button></td></tr>`);
-                });
-            });
-            tbody.innerHTML = rows.join('');
-            document.getElementById('totalSales').innerText = historyData.reduce((a, b) => a + b.total, 0).toFixed(2);
-        });
-    }
+        // --- 7. دوال الإدارة المساعدة ---
+        window.toggleAdmin = () => {
+            if (prompt("باسورد الإدارة:") === "admin123456") { document.getElementById('adminPanel').style.display = 'block'; isAuthorizedAdmin = true; }
+        };
+        window.closeAdminPanel = () => { document.getElementById('adminPanel').style.display = 'none'; isAuthorizedAdmin = false; };
 
-    // --- 7. دوال الإدارة المساعدة ---
-    window.toggleAdmin = () => {
-        if (prompt("باسورد الإدارة:") === "admin123456") { document.getElementById('adminPanel').style.display = 'block'; isAuthorizedAdmin = true; }
-    };
-    window.closeAdminPanel = () => { document.getElementById('adminPanel').style.display = 'none'; isAuthorizedAdmin = false; };
-
-    function updateAdminDrinksTable() {
-        const adminTbody = document.getElementById('adminDrinksManageBody');
-        if (adminTbody) {
-            adminTbody.innerHTML = beverages.map((bev, index) => `
+        function updateAdminDrinksTable() {
+            const adminTbody = document.getElementById('adminDrinksManageBody');
+            if (adminTbody) {
+                adminTbody.innerHTML = beverages.map((bev, index) => `
                 <tr>
                     <td><img src="${bev.icon || ''}" style="width:25px; height:25px; object-fit:contain;"></td>
                     <td>${bev.name}</td><td>${bev.price.toFixed(2)}</td>
                     <td><button class="btn" onclick="window.initEditBeverage(${index})">📝</button></td>
                     <td><button class="btn" style="background:red" onclick="window.deleteBeverage(${index})">🗑️</button></td>
                 </tr>`).join('');
-        }
-    }
-
-    window.initEditBeverage = async (index) => {
-        const bev = beverages[index];
-        const nName = prompt("اسم المشروب:", bev.name);
-        const nPrice = prompt("السعر:", bev.price);
-        const nIcon = prompt("رابط الأيقونة:", bev.icon);
-        if (nName && nPrice) {
-            const newList = [...beverages];
-            newList[index] = { name: nName, price: Number(nPrice), icon: nIcon };
-            await setDoc(doc(db, "beverages", "global_list"), { list: newList });
-            alert("✅ تم التعديل");
-        }
-    };
-
-    window.deleteBeverage = async (index) => {
-        if (confirm("حذف المشروب؟")) {
-            const newList = [...beverages]; newList.splice(index, 1);
-            await setDoc(doc(db, "beverages", "global_list"), { list: newList });
-        }
-    };
-
-    window.deleteSale = async (id) => {
-    try {
-        const orderRef = doc(db, "all_orders", id);
-        const orderSnap = await getDoc(orderRef);
-        
-        if (orderSnap.exists()) {
-            const data = orderSnap.data();
-            
-            // منع الحذف إذا تم التجهيز
-            if (data.status === "completed") {
-                return alert("🚫 عفواً، لا يمكنك حذف طلب تم تجهيزه بالفعل من قبل البوفيه!");
-            }
-
-            if (confirm("⚠️ هل تريد إلغاء هذا الطلب؟")) {
-                await deleteDoc(orderRef);
-                alert("✅ تم حذف الطلب بنجاح");
             }
         }
-    } catch (e) {
-        alert("خطأ في الحذف: " + e.message);
-    }
-};
 
-    // تشغيل المظهر والوميض وEnter
-    initializeGlobalTheme();
-    document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && document.getElementById('loginPage').style.display !== 'none') window.handleLogin(); });
-    window.viewImage = (url) => { if(url) { document.getElementById('fullImage').src = url; document.getElementById('imageViewer').style.display = 'flex'; } };
+        window.initEditBeverage = async (index) => {
+            const bev = beverages[index];
+            const nName = prompt("اسم المشروب:", bev.name);
+            const nPrice = prompt("السعر:", bev.price);
+            const nIcon = prompt("رابط الأيقونة:", bev.icon);
+            if (nName && nPrice) {
+                const newList = [...beverages];
+                newList[index] = { name: nName, price: Number(nPrice), icon: nIcon };
+                await setDoc(doc(db, "beverages", "global_list"), { list: newList });
+                alert("✅ تم التعديل");
+            }
+        };
 
-    // --- (باقي دوال الإدارة والتقارير والمخازن تظل كما هي مع التأكد من ربطها بـ window) ---
-    // (addRawToCentral, deleteRawItem, showRequisitionModal, loadDepartments, deleteUserAccount, etc.)
-</script>
+        window.deleteBeverage = async (index) => {
+            if (confirm("حذف المشروب؟")) {
+                const newList = [...beverages]; newList.splice(index, 1);
+                await setDoc(doc(db, "beverages", "global_list"), { list: newList });
+            }
+        };
+
+        window.deleteSale = async (id) => {
+            try {
+                const orderRef = doc(db, "all_orders", id);
+                const orderSnap = await getDoc(orderRef);
+
+                if (orderSnap.exists()) {
+                    const data = orderSnap.data();
+
+                    // منع الحذف إذا تم التجهيز
+                    if (data.status === "completed") {
+                        return alert("🚫 عفواً، لا يمكنك حذف طلب تم تجهيزه بالفعل من قبل البوفيه!");
+                    }
+
+                    if (confirm("⚠️ هل تريد إلغاء هذا الطلب؟")) {
+                        await deleteDoc(orderRef);
+                        alert("✅ تم حذف الطلب بنجاح");
+                    }
+                }
+            } catch (e) {
+                alert("خطأ في الحذف: " + e.message);
+            }
+        };
+
+        // تشغيل المظهر والوميض وEnter
+        initializeGlobalTheme();
+        document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && document.getElementById('loginPage').style.display !== 'none') window.handleLogin(); });
+        window.viewImage = (url) => { if (url) { document.getElementById('fullImage').src = url; document.getElementById('imageViewer').style.display = 'flex'; } };
+
+        // --- (باقي دوال الإدارة والتقارير والمخازن تظل كما هي مع التأكد من ربطها بـ window) ---
+        // (addRawToCentral, deleteRawItem, showRequisitionModal, loadDepartments, deleteUserAccount, etc.)
+    </script>
 
     <!-- الـ Modal المفقود في الكود الأصلي لإتمام الصرف -->
-    <div id="requisitionModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center;">
+    <div id="requisitionModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center;">
         <div class="login-box" style="max-width:400px; background:white; color:#333;">
             <h3 style="color:#3E2723; margin-bottom:20px;">📝 إنشاء إذن صرف خامات</h3>
             <select id="reqItemSelect" style="color:black"></select>
@@ -1097,4 +1525,5 @@ window.finishOrder = async (docId) => {
     </div>
 
 </body>
+
 </html>
